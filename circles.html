@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find a Circle — Lean In Connect</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .circles-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 36px;
+      text-align: center;
+    }
+
+    .circles-header h1 {
+      font-size: 2.25rem;
+      margin-bottom: 10px;
+    }
+
+    .circles-header p {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 480px;
+      margin: 0 auto 28px;
+    }
+
+    .circles-search-wrap {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .circles-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 13px 20px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .circles-search:focus-within {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(226,35,26,0.08);
+    }
+
+    .circles-search svg {
+      width: 18px;
+      height: 18px;
+      color: var(--gray);
+      flex-shrink: 0;
+    }
+
+    .circles-search input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .circles-search input::placeholder { color: var(--gray); }
+
+    .circles-body {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+    }
+
+    .circles-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .circles-count {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .circles-count strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .topic-filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .topic-chip {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font-sans);
+    }
+
+    .topic-chip:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .topic-chip.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    .circles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .circle-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .circle-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .circle-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .circle-avatar-group {
+      display: flex;
+    }
+
+    .circle-member-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+      margin-left: -8px;
+    }
+
+    .circle-member-avatar:first-child { margin-left: 0; }
+
+    .circle-topic-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--red-light);
+      color: var(--red);
+      white-space: nowrap;
+    }
+
+    .circle-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .circle-description {
+      font-size: 13.5px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .circle-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .circle-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .circle-meta-item svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      color: var(--gray);
+    }
+
+    .circle-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .circle-spots {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .circle-spots.few-left {
+      color: #B45309;
+      font-weight: 500;
+    }
+
+    .btn-join {
+      padding: 9px 20px;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-join:hover { background: var(--red-hover); }
+
+    .btn-join.pending {
+      background: var(--bg);
+      color: var(--gray);
+      border: 1.5px solid var(--border);
+    }
+
+    .no-circles {
+      display: none;
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--gray);
+    }
+
+    .no-circles .empty-icon { font-size: 40px; margin-bottom: 12px; }
+    .no-circles p { font-size: 15px; }
+
+    /* What is a Circle — collapsible */
+    .what-is-section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .collapsible-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .collapsible-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s;
+    }
+
+    .collapsible-trigger:hover { background: var(--bg); }
+
+    .collapsible-trigger svg {
+      width: 18px;
+      height: 18px;
+      color: var(--gray);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .collapsible-trigger[aria-expanded="true"] svg {
+      transform: rotate(180deg);
+    }
+
+    .collapsible-body {
+      display: none;
+      padding: 0 24px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .collapsible-body.open { display: block; }
+
+    .what-is-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding-top: 20px;
+    }
+
+    .what-is-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .what-is-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--red-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .what-is-text strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .what-is-text span {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .circles-grid { grid-template-columns: 1fr; }
+      .circles-toolbar { flex-direction: column; align-items: flex-start; }
+      .what-is-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Nav -->
+<nav class="topnav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">
+    <img src="logo-lean_in.png" alt="Lean In" style="height: 32px;">
+  </a>
+
+  <div class="nav-search" role="search">
+    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+    </svg>
+    <input type="search" placeholder="Search Lean In Connect…" aria-label="Search">
+  </div>
+
+  <nav class="nav-links" aria-label="Primary">
+    <a href="index.html" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+      </svg>
+      Home
+    </a>
+    <a href="circles.html" class="nav-link active" aria-current="page">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+      </svg>
+      Circles
+    </a>
+    <a href="networks.html" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+      </svg>
+      Networks
+    </a>
+    <a href="resources.html" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+      </svg>
+      Resources
+    </a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="nav-icon-btn" aria-label="Notifications">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+      </svg>
+    </button>
+    <div class="avatar sm a-me" role="img" aria-label="Your profile">ME</div>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <!-- Header -->
+  <div class="circles-header">
+    <h1>Find Your Circle</h1>
+    <p>A Circle is a small group of women who meet regularly to support each other.</p>
+
+    <div class="circles-search-wrap">
+      <div class="circles-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+        </svg>
+        <input
+          type="search"
+          id="circle-search"
+          placeholder="Search by name or topic…"
+          aria-label="Search circles by name or topic"
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid + Filters -->
+  <div class="circles-body">
+
+    <div class="circles-toolbar">
+      <p class="circles-count" aria-live="polite">
+        Showing <strong id="circles-visible-count">8</strong> Circles near you
+      </p>
+      <div class="topic-filters" role="group" aria-label="Filter by topic">
+        <button class="topic-chip active" data-topic="all">All</button>
+        <button class="topic-chip" data-topic="tech">Tech</button>
+        <button class="topic-chip" data-topic="design">Design</button>
+        <button class="topic-chip" data-topic="leadership">Leadership</button>
+        <button class="topic-chip" data-topic="early-career">Early Career</button>
+        <button class="topic-chip" data-topic="entrepreneurship">Entrepreneurship</button>
+      </div>
+    </div>
+
+    <div class="circles-grid" id="circles-grid" role="list">
+
+      <!-- Card 1 -->
+      <div class="circle-card" data-topic="tech" data-name="women in product sf" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#E2231A;">SC</div>
+            <div class="circle-member-avatar" style="background:#7B4FD4;">MR</div>
+            <div class="circle-member-avatar" style="background:#169C5A;">AJ</div>
+            <div class="circle-member-avatar" style="background:#1A6BE2;">+6</div>
+          </div>
+          <span class="circle-topic-tag">Tech</span>
+        </div>
+        <h3>Women in Product SF</h3>
+        <p class="circle-description">For product managers and aspiring PMs in the Bay Area. We share war stories, workshop case studies, and hold each other accountable to our career goals.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            9 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Bi-weekly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            San Francisco
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots few-left">2 spots left</span>
+          <button class="btn-join" aria-label="Request to join Women in Product SF">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="circle-card" data-topic="design" data-name="early career designers" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#D4601A;">LP</div>
+            <div class="circle-member-avatar" style="background:#7B4FD4;">KW</div>
+            <div class="circle-member-avatar" style="background:#169C8A;">+5</div>
+          </div>
+          <span class="circle-topic-tag" style="background:#F0EEFF; color:#7B4FD4;">Design</span>
+        </div>
+        <h3>Early Career Designers</h3>
+        <p class="circle-description">UX and visual designers in their first 1–3 years navigating the industry. Portfolio reviews, job hunt support, and surviving your first redesign project.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            7 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Monthly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/>
+            </svg>
+            Virtual
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots">3 spots open</span>
+          <button class="btn-join" aria-label="Request to join Early Career Designers">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="circle-card" data-topic="entrepreneurship" data-name="founders and builders" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#E2231A;">RP</div>
+            <div class="circle-member-avatar" style="background:#B8860B;">TN</div>
+            <div class="circle-member-avatar" style="background:#169C5A;">CM</div>
+            <div class="circle-member-avatar" style="background:#7B4FD4;">+7</div>
+          </div>
+          <span class="circle-topic-tag" style="background:#FFF9E8; color:#B8860B;">Entrepreneurship</span>
+        </div>
+        <h3>Founders &amp; Builders</h3>
+        <p class="circle-description">Women who are building companies, side projects, or making the leap to solopreneurship. Fundraising, customer discovery, and staying sane while doing it all.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            10 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Bi-weekly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            New York
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots few-left">1 spot left</span>
+          <button class="btn-join" aria-label="Request to join Founders and Builders">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="circle-card" data-topic="leadership" data-name="new managers circle" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#1A6BE2;">JH</div>
+            <div class="circle-member-avatar" style="background:#E2231A;">OA</div>
+            <div class="circle-member-avatar" style="background:#169C5A;">+5</div>
+          </div>
+          <span class="circle-topic-tag" style="background:#E8F4FF; color:#1A6BE2;">Leadership</span>
+        </div>
+        <h3>New Managers Circle</h3>
+        <p class="circle-description">For women stepping into their first people-manager role. Navigating performance reviews, having hard conversations, and building team culture without losing yourself.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            7 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Monthly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/>
+            </svg>
+            Virtual
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots">4 spots open</span>
+          <button class="btn-join" aria-label="Request to join New Managers Circle">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="circle-card" data-topic="tech" data-name="women in engineering" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#169C8A;">ZM</div>
+            <div class="circle-member-avatar" style="background:#7B4FD4;">PR</div>
+            <div class="circle-member-avatar" style="background:#E2231A;">BK</div>
+            <div class="circle-member-avatar" style="background:#1A6BE2;">+5</div>
+          </div>
+          <span class="circle-topic-tag">Tech</span>
+        </div>
+        <h3>Women in Engineering</h3>
+        <p class="circle-description">Software engineers at all levels working through the unique challenges of being a woman in a technical role — from imposter syndrome to staff engineer paths.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            8 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Bi-weekly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            Seattle
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots">3 spots open</span>
+          <button class="btn-join" aria-label="Request to join Women in Engineering">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="circle-card" data-topic="early-career" data-name="career changers collective" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#D4601A;">NJ</div>
+            <div class="circle-member-avatar" style="background:#169C5A;">FS</div>
+            <div class="circle-member-avatar" style="background:#7B4FD4;">+4</div>
+          </div>
+          <span class="circle-topic-tag" style="background:#E8FFF6; color:#169C5A;">Early Career</span>
+        </div>
+        <h3>Career Changers Collective</h3>
+        <p class="circle-description">For women making bold career pivots — whether that's switching industries, going back to school, or starting something new after years in one field.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            6 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Monthly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/>
+            </svg>
+            Virtual
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots">5 spots open</span>
+          <button class="btn-join" aria-label="Request to join Career Changers Collective">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="circle-card" data-topic="leadership" data-name="executive women chicago" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#E2231A;">AT</div>
+            <div class="circle-member-avatar" style="background:#1A6BE2;">MO</div>
+            <div class="circle-member-avatar" style="background:#D4601A;">SW</div>
+            <div class="circle-member-avatar" style="background:#169C8A;">+6</div>
+          </div>
+          <span class="circle-topic-tag" style="background:#E8F4FF; color:#1A6BE2;">Leadership</span>
+        </div>
+        <h3>Executive Women Chicago</h3>
+        <p class="circle-description">Senior leaders and directors navigating C-suite dynamics, board relationships, and what it means to lead at scale while staying grounded in your values.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            9 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Monthly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            Chicago
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots few-left">2 spots left</span>
+          <button class="btn-join" aria-label="Request to join Executive Women Chicago">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="circle-card" data-topic="early-career" data-name="first gen professionals" role="listitem">
+        <div class="circle-card-top">
+          <div class="circle-avatar-group" aria-hidden="true">
+            <div class="circle-member-avatar" style="background:#7B4FD4;">DL</div>
+            <div class="circle-member-avatar" style="background:#E2231A;">YC</div>
+            <div class="circle-member-avatar" style="background:#169C5A;">+5</div>
+          </div>
+          <span class="circle-topic-tag" style="background:#E8FFF6; color:#169C5A;">Early Career</span>
+        </div>
+        <h3>First-Gen Professionals</h3>
+        <p class="circle-description">For women who are the first in their family to work in corporate or professional environments. Navigating unwritten rules, impostor syndrome, and building wealth from scratch.</p>
+        <div class="circle-meta">
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+            </svg>
+            7 members
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+            Bi-weekly
+          </div>
+          <div class="circle-meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/>
+            </svg>
+            Virtual
+          </div>
+        </div>
+        <div class="circle-card-footer">
+          <span class="circle-spots">4 spots open</span>
+          <button class="btn-join" aria-label="Request to join First-Gen Professionals">Request to Join</button>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="no-circles" id="no-circles" role="status" aria-live="polite">
+        <div class="empty-icon">🔍</div>
+        <p>No Circles match that search. Try a different term or browse all.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- What is a Circle — collapsible -->
+  <div class="what-is-section">
+    <div class="collapsible-card">
+      <button
+        class="collapsible-trigger"
+        aria-expanded="false"
+        aria-controls="what-is-body"
+        id="what-is-trigger"
+      >
+        What is a Lean In Circle?
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <div class="collapsible-body" id="what-is-body" role="region" aria-labelledby="what-is-trigger">
+        <div class="what-is-grid">
+          <div class="what-is-item">
+            <div class="what-is-icon" aria-hidden="true">👥</div>
+            <div class="what-is-text">
+              <strong>Small on purpose</strong>
+              <span>8–12 women — small enough that everyone actually knows each other.</span>
+            </div>
+          </div>
+          <div class="what-is-item">
+            <div class="what-is-icon" aria-hidden="true">📅</div>
+            <div class="what-is-text">
+              <strong>Meets regularly</strong>
+              <span>Monthly or bi-weekly, in person or virtually — whatever works for your group.</span>
+            </div>
+          </div>
+          <div class="what-is-item">
+            <div class="what-is-icon" aria-hidden="true">🤝</div>
+            <div class="what-is-text">
+              <strong>Peer-led</strong>
+              <span>No outside facilitator. Members take turns leading using Lean In's curriculum.</span>
+            </div>
+          </div>
+          <div class="what-is-item">
+            <div class="what-is-icon" aria-hidden="true">📚</div>
+            <div class="what-is-text">
+              <strong>Follows Lean In curriculum</strong>
+              <span>Sessions cover topics like negotiation, ambition, mentorship, and leadership.</span>
+            </div>
+          </div>
+          <div class="what-is-item">
+            <div class="what-is-icon" aria-hidden="true">🆓</div>
+            <div class="what-is-text">
+              <strong>Always free</strong>
+              <span>No membership fees, no subscriptions. Circles are free to start and free to join.</span>
+            </div>
+          </div>
+          <div class="what-is-item">
+            <div class="what-is-icon" aria-hidden="true">🔒</div>
+            <div class="what-is-text">
+              <strong>Private &amp; trusted</strong>
+              <span>What's shared in Circle stays in Circle. These are your people.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-logo">Lean In</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="networks.html">Networks</a>
+    <a href="resources.html">Resources</a>
+    <a href="rationale.html">Design Notes</a>
+  </div>
+  <p>© 2025 Lean In · Prototype redesign concept</p>
+</footer>
+
+<script>
+  const searchInput = document.getElementById('circle-search');
+  const topicChips = document.querySelectorAll('.topic-chip');
+  const cards = document.querySelectorAll('.circle-card');
+  const countEl = document.getElementById('circles-visible-count');
+  const noCircles = document.getElementById('no-circles');
+
+  function applyFilters() {
+    const activeTopic = document.querySelector('.topic-chip.active').dataset.topic;
+    const searchTerm = searchInput.value.toLowerCase().trim();
+
+    let visible = 0;
+    cards.forEach(card => {
+      const topicMatch = activeTopic === 'all' || card.dataset.topic === activeTopic;
+      const nameMatch = !searchTerm || card.dataset.name.includes(searchTerm) ||
+        card.querySelector('h3').textContent.toLowerCase().includes(searchTerm) ||
+        card.querySelector('.circle-description').textContent.toLowerCase().includes(searchTerm);
+      const show = topicMatch && nameMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    noCircles.style.display = visible === 0 ? 'block' : 'none';
+    countEl.textContent = visible;
+  }
+
+  topicChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      topicChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilters);
+
+  // Request to Join toggle
+  document.querySelectorAll('.btn-join').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isPending = btn.classList.contains('pending');
+      btn.classList.toggle('pending', !isPending);
+      btn.textContent = isPending ? 'Request to Join' : 'Request Sent';
+      const cardName = btn.closest('.circle-card').querySelector('h3').textContent;
+      btn.setAttribute('aria-label', isPending
+        ? `Request to join ${cardName}`
+        : `Request sent for ${cardName}`
+      );
+    });
+  });
+
+  // Collapsible
+  const trigger = document.getElementById('what-is-trigger');
+  const body = document.getElementById('what-is-body');
+
+  trigger.addEventListener('click', () => {
+    const isOpen = body.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', isOpen);
+  });
+</script>
+
+</body>
+</html>

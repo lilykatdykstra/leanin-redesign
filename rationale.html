@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Rationale — Lean In Connect Redesign</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .toc {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 48px;
+      position: sticky;
+      top: calc(var(--nav-h) + 16px);
+      max-width: 240px;
+      float: right;
+      margin-left: 40px;
+      clear: right;
+    }
+    .toc h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); margin-bottom: 12px; font-family: var(--font-sans); }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .toc-list a { font-size: 13px; color: var(--gray); text-decoration: none; transition: color 0.15s; padding: 2px 0; display: block; }
+    .toc-list a:hover { color: var(--red); }
+    .toc-list a.active { color: var(--red); font-weight: 600; }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .ba-card {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .ba-label {
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .ba-label.before { background: #F5F5F5; color: var(--gray); }
+    .ba-label.after { background: var(--red-light); color: var(--red); }
+    .ba-content {
+      padding: 14px;
+      background: var(--white);
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .decision-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 24px 0;
+    }
+    .decision-table th {
+      background: var(--bg);
+      color: var(--gray);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .decision-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text);
+      background: var(--white);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    .decision-table td:first-child { color: var(--gray); font-weight: 500; }
+    .decision-table tr:last-child td { border-bottom: none; }
+
+    .accessibility-check {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .a11y-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .a11y-check {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: #E8FFF6;
+      color: #169C5A;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .a11y-text { flex: 1; }
+    .a11y-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .a11y-text span { font-size: 13px; color: var(--gray); }
+
+    @media (max-width: 768px) {
+      .toc { float: none; max-width: none; position: static; margin-left: 0; }
+      .before-after { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Nav -->
+<nav class="topnav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">Lean <span>In</span></a>
+
+  <div class="nav-search" role="search">
+    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+    </svg>
+    <input type="search" placeholder="Search Lean In Connect…" aria-label="Search">
+  </div>
+
+  <nav class="nav-links" aria-label="Primary">
+    <a href="index.html" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+      </svg>
+      Home
+    </a>
+    <a href="circles.html" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+      </svg>
+      Circles
+    </a>
+    <a href="networks.html" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+      </svg>
+      Networks
+    </a>
+    <a href="resources.html" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+      </svg>
+      Resources
+    </a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="nav-icon-btn" aria-label="Notifications">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+      </svg>
+    </button>
+    <div class="avatar sm a-me" role="img" aria-label="Your profile">ME</div>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <!-- Hero -->
+  <div class="rationale-hero" role="banner">
+    <div class="container">
+      <div class="hero-tag" style="background:rgba(226,35,26,0.2); color:#FF8A85; display:inline-block; padding:5px 14px; border-radius:100px; font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px;">Design Process</div>
+      <h1>Design Rationale &<br>Process Notes</h1>
+      <p>A behind-the-scenes look at the decisions behind this redesign concept — what we changed, why, and what tradeoffs we considered.</p>
+    </div>
+  </div>
+
+  <div class="rationale-content">
+
+    <!-- Table of Contents (floated right, stays in flow) -->
+    <nav class="toc" aria-label="Page contents">
+      <h4>Contents</h4>
+      <ul class="toc-list">
+        <li><a href="#vision">Design Vision</a></li>
+        <li><a href="#colors">Color System</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#layout">Layout & Navigation</a></li>
+        <li><a href="#feed">Feed Design</a></li>
+        <li><a href="#information-architecture">Information Architecture</a></li>
+        <li><a href="#accessibility">Accessibility</a></li>
+        <li><a href="#tradeoffs">Tradeoffs & Open Questions</a></li>
+      </ul>
+    </nav>
+
+    <!-- 1. Vision -->
+    <section class="rationale-section" id="vision" aria-labelledby="vision-heading">
+      <div class="rationale-num" aria-hidden="true">01</div>
+      <h2 class="rationale-heading" id="vision-heading">Design Vision</h2>
+
+      <div class="rationale-body">
+        <p>The current Lean In Connect platform feels functional but dated — closer in spirit to early Facebook groups than to where social platforms have evolved. The redesign aims for something specific: <strong>warm, modern, and mission-forward</strong>.</p>
+
+        <p>"Warm" means the platform feels human rather than algorithmic. It should feel like you're stepping into a supportive community, not a content feed optimized for engagement. That influences everything from the off-white background (#FAF8F5 instead of pure white) to the serif display font, to the way posts are written and displayed.</p>
+
+        <p>"Modern" means the UX patterns are familiar enough that a LinkedIn or Twitter user can orient themselves immediately. Three-column layout, persistent navigation, inline interactions — these aren't novel, but they're proven, and novelty is not the goal here.</p>
+
+        <p>"Mission-forward" means Lean In's actual purpose — women supporting each other's ambitions — is legible in the design itself. The feed shows real stories. The sidebar immediately tells you what communities you belong to. The brand red is present but never aggressive.</p>
+      </div>
+
+      <div class="quote-block" role="blockquote">
+        <p>"Design that forgets its purpose is just decoration. Every decision here should serve the question: does this help a woman feel seen, supported, and equipped to grow?"</p>
+        <div class="quote-attribution">— Design brief north star</div>
+      </div>
+    </section>
+
+    <!-- 2. Colors -->
+    <section class="rationale-section" id="colors" aria-labelledby="colors-heading">
+      <div class="rationale-num" aria-hidden="true">02</div>
+      <h2 class="rationale-heading" id="colors-heading">Color System</h2>
+
+      <div class="rationale-body">
+        <p>The palette is taken directly from Lean In's brand, but applied with more intentionality than the current platform uses.</p>
+      </div>
+
+      <div class="color-swatch-row" role="list" aria-label="Color palette">
+        <div class="color-swatch" role="listitem">
+          <div class="swatch-box" style="background:#E2231A;"></div>
+          <span class="swatch-name">Primary Red</span>
+          <span class="swatch-hex">#E2231A</span>
+        </div>
+        <div class="color-swatch" role="listitem">
+          <div class="swatch-box" style="background:#FAF8F5; border-color:var(--border-mid);"></div>
+          <span class="swatch-name">Background</span>
+          <span class="swatch-hex">#FAF8F5</span>
+        </div>
+        <div class="color-swatch" role="listitem">
+          <div class="swatch-box" style="background:#1A1A1A;"></div>
+          <span class="swatch-name">Dark Text</span>
+          <span class="swatch-hex">#1A1A1A</span>
+        </div>
+        <div class="color-swatch" role="listitem">
+          <div class="swatch-box" style="background:#FFFFFF; border-color:var(--border-mid);"></div>
+          <span class="swatch-name">Card White</span>
+          <span class="swatch-hex">#FFFFFF</span>
+        </div>
+        <div class="color-swatch" role="listitem">
+          <div class="swatch-box" style="background:#6B6B6B;"></div>
+          <span class="swatch-name">Muted Gray</span>
+          <span class="swatch-hex">#6B6B6B</span>
+        </div>
+        <div class="color-swatch" role="listitem">
+          <div class="swatch-box" style="background:#E8E4E0;"></div>
+          <span class="swatch-name">Light Border</span>
+          <span class="swatch-hex">#E8E4E0</span>
+        </div>
+        <div class="color-swatch" role="listitem">
+          <div class="swatch-box" style="background:#FFF0EF;"></div>
+          <span class="swatch-name">Red Tint</span>
+          <span class="swatch-hex">#FFF0EF</span>
+        </div>
+      </div>
+
+      <div class="rationale-body">
+        <p><strong>Background (#FAF8F5):</strong> The warm off-white is one of the most important decisions in the palette. Pure white (#FFFFFF) reads as clinical and corporate. The warm tint makes the interface feel inviting without being distracting — it's the difference between a hospital and a coffee shop.</p>
+
+        <p><strong>Cards as #FFFFFF on warm background:</strong> Using true white for cards against the warm background creates gentle contrast without harsh shadows. Cards "lift" subtly, keeping the visual hierarchy clear while maintaining warmth.</p>
+
+        <p><strong>Red (#E2231A) used sparingly:</strong> The brand red is bold and energetic, but can feel aggressive at scale. In this design it appears primarily for interactive elements (active states, CTAs, post badges) and key UI moments — never as a background color for large areas.</p>
+
+        <p><strong>Supporting colors for community types:</strong> Circles use the brand red, Networks use purple (#7B4FD4), Groups use teal (#169C8A). This gives each community type a distinct visual identity without competing with the brand.</p>
+      </div>
+    </section>
+
+    <!-- 3. Typography -->
+    <section class="rationale-section" id="typography" aria-labelledby="type-heading">
+      <div class="rationale-num" aria-hidden="true">03</div>
+      <h2 class="rationale-heading" id="type-heading">Typography</h2>
+
+      <div class="rationale-body">
+        <p>The type pairing — Playfair Display for headings, Inter for body — is chosen for a specific effect: editorial warmth paired with digital legibility.</p>
+      </div>
+
+      <div class="type-specimen" aria-label="Playfair Display typeface specimen">
+        <p style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray); margin-bottom:12px; font-weight:600;">Playfair Display — Headings</p>
+        <h1 style="margin-bottom:6px;">Your community,<br>your career.</h1>
+        <h2 style="margin-bottom:6px;">Women supporting women</h2>
+        <h3>Find your Circle today</h3>
+      </div>
+
+      <div class="type-specimen" aria-label="Inter typeface specimen">
+        <p style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray); margin-bottom:12px; font-weight:600;">Inter — Body & UI</p>
+        <p style="color:var(--text); font-size:15px; line-height:1.7; margin-bottom:10px;">Body copy at 15px / 1.7 line-height. Designed for long-form reading comfort on screen.</p>
+        <p style="color:var(--gray); font-size:13px;">UI labels, captions, and metadata at 13px.</p>
+        <p style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray); margin-top:10px;">Section Labels at 11px / 600 weight</p>
+      </div>
+
+      <div class="rationale-body">
+        <p><strong>Why Playfair Display:</strong> Lean In exists at the intersection of authority and warmth — it's a serious organization doing serious work, but the movement is built on human connection. A modern serif conveys both: the authority of a respected publication, with the warmth of something hand-crafted. Playfair's high contrast letterforms work especially well at display sizes.</p>
+
+        <p><strong>Why Inter for body:</strong> Inter was designed specifically for screen legibility, with open apertures and wide spacing that holds up at small sizes. It's neutral enough to let the content lead, but has just enough personality to feel considered.</p>
+
+        <p><strong>Scale and spacing:</strong> Text size ranges from 11px (labels) to 2.75rem (hero headings), with a deliberate minimum of 13px for anything users need to read. Line height is generous — 1.7 for body text — because dense text slows reading on community platforms where people often skim.</p>
+      </div>
+    </section>
+
+    <!-- 4. Layout -->
+    <section class="rationale-section" id="layout" aria-labelledby="layout-heading">
+      <div class="rationale-num" aria-hidden="true">04</div>
+      <h2 class="rationale-heading" id="layout-heading">Layout & Navigation</h2>
+
+      <div class="rationale-body">
+        <p>The three-column layout (profile sidebar / feed / contextual sidebar) is the standard for social platforms for a reason: it separates personal context (left), stream content (center), and ambient information (right) without requiring navigation.</p>
+
+        <p>The nav deliberately mirrors LinkedIn's structure — icon + label nav items, search in the bar, avatar on the right — because users arrive with existing mental models. Fighting those models wastes the user's cognitive budget. Using them means users can focus on the content instead of the chrome.</p>
+      </div>
+
+      <div class="before-after" role="group" aria-label="Layout comparison: before and after">
+        <div class="ba-card">
+          <div class="ba-label before">Current platform</div>
+          <div class="ba-content">
+            Forum-style layout with navigation in a top bar and content in a single column. Community membership buried in a side panel that many users don't notice. Hard to tell at a glance which community a post belongs to.
+          </div>
+        </div>
+        <div class="ba-card">
+          <div class="ba-label after">This redesign</div>
+          <div class="ba-content">
+            Three-column layout with profile and community membership always visible in the left sidebar. Post badges clearly identify Circles vs. Networks. Right sidebar surfaces upcoming meetings and people — the things you need but might not seek out.
+          </div>
+        </div>
+      </div>
+
+      <div class="rationale-body">
+        <p><strong>Left sidebar as identity anchor:</strong> One of the most important functions of the left sidebar is reminding users who they are in this community — their name, their Circle, their Network. Research on community platforms consistently shows that belonging cues (being reminded of your membership) increase participation. Showing this on every page load is a design decision, not just a layout choice.</p>
+
+        <p><strong>Sticky sidebars:</strong> Both sidebars are sticky on scroll, keeping community context and upcoming meetings visible while browsing. This mirrors the way LinkedIn keeps your profile stats visible — it turns ambient awareness into intentional presence.</p>
+      </div>
+    </section>
+
+    <!-- 5. Feed -->
+    <section class="rationale-section" id="feed" aria-labelledby="feed-heading">
+      <div class="rationale-num" aria-hidden="true">05</div>
+      <h2 class="rationale-heading" id="feed-heading">Feed Design</h2>
+
+      <div class="rationale-body">
+        <p>The feed is the heart of the platform, and the place where the most design tension lives: how do you create an engaging, scrollable experience without becoming an engagement-optimization machine?</p>
+      </div>
+
+      <table class="decision-table" role="table" aria-label="Feed design decisions">
+        <thead>
+          <tr>
+            <th>Decision</th>
+            <th>Approach</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Post badges</td>
+            <td>Color-coded Circle vs. Network badges on every post</td>
+            <td>Users scan feeds quickly. Badges let you filter by community type at a glance without reading the post metadata carefully.</td>
+          </tr>
+          <tr>
+            <td>Feed filters</td>
+            <td>Tab bar: All / My Circles / My Networks / Saved</td>
+            <td>Gives users agency over information density without requiring a separate page. Saved allows lightweight bookmarking within the feed flow.</td>
+          </tr>
+          <tr>
+            <td>Post length</td>
+            <td>Unconstrained, long-form posts visible in full</td>
+            <td>Lean In's content is substantive and personal. Truncating posts encourages low-effort posting. Showing full posts respects the content and the community.</td>
+          </tr>
+          <tr>
+            <td>Reactions</td>
+            <td>"Celebrate" as primary action (vs "Like")</td>
+            <td>Lean In content is often personal wins and vulnerable shares. "Celebrate" is more appropriate than "Like" and reinforces the platform's unique emotional tone.</td>
+          </tr>
+          <tr>
+            <td>Composer</td>
+            <td>Pill-shaped input bar with quick-add actions below</td>
+            <td>The pill shape and placeholder text ("Share something with your communities") invites personal sharing rather than professional broadcasting.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 6. Information Architecture -->
+    <section class="rationale-section" id="information-architecture" aria-labelledby="ia-heading">
+      <div class="rationale-num" aria-hidden="true">06</div>
+      <h2 class="rationale-heading" id="ia-heading">Information Architecture</h2>
+
+      <div class="rationale-body">
+        <p>One of the primary usability problems on the current platform is that users don't understand the difference between Circles, Networks, and Groups. These aren't just different words — they represent meaningfully different types of relationships and commitments. The current platform doesn't explain this clearly.</p>
+
+        <p>This redesign addresses the problem at two levels:</p>
+
+        <p><strong>Level 1 — Persistent visual encoding:</strong> Every post and community reference is color-coded (red = Circle, purple = Network, teal = Group). Users learn the system through exposure, not instruction.</p>
+
+        <p><strong>Level 2 — Dedicated explainer page:</strong> The explainer.html page provides explicit education for new users — including a comparison table, visual metaphors (the concentric rings diagram), and a clear "how to get started" flow. This page is linked from the nav (as "Circles" in the navigation) so new users can find it.</p>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num" aria-hidden="true">IA</div>
+        <div class="principle-text">
+          <h4>The hierarchy: Circle ⊂ Network ⊂ Platform</h4>
+          <p>Circles are nested inside Networks — you find your Circle through your Network. Groups cross-cut both. Representing this spatial relationship visually (the concentric diagram) makes the hierarchy intuitive rather than something users have to memorize.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Accessibility -->
+    <section class="rationale-section" id="accessibility" aria-labelledby="a11y-heading">
+      <div class="rationale-num" aria-hidden="true">07</div>
+      <h2 class="rationale-heading" id="a11y-heading">Accessibility</h2>
+
+      <div class="rationale-body">
+        <p>Accessibility isn't a checklist item here — it's a core value of a platform whose mission is inclusion. The following features are implemented throughout the prototype:</p>
+      </div>
+
+      <div class="accessibility-check" role="list" aria-label="Accessibility features">
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>Semantic HTML throughout</strong>
+            <span>All pages use <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;footer&gt;</code> — not just div soup. Headings are hierarchically correct (h1 → h2 → h3).</span>
+          </div>
+        </div>
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>ARIA labels on interactive elements</strong>
+            <span>Every button and link has a descriptive aria-label where the visible label isn't sufficient (e.g. icon-only buttons, avatar images, notification badges).</span>
+          </div>
+        </div>
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>Tab filtering with ARIA roles</strong>
+            <span>Feed tabs use <code>role="tablist"</code> and <code>role="tab"</code> with <code>aria-selected</code> updated on click. Screen readers announce the active filter correctly.</span>
+          </div>
+        </div>
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>Focus styles always visible</strong>
+            <span>A 2px red outline appears on all focusable elements when navigating by keyboard — never hidden by <code>outline: none</code>.</span>
+          </div>
+        </div>
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>Color contrast ratios</strong>
+            <span>Text on white: #1A1A1A passes AA at all sizes. Muted gray (#6B6B6B) on white passes AA at body sizes. Red (#E2231A) on white fails AA for small text — it is only used at large sizes or with additional visual weight.</span>
+          </div>
+        </div>
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>aria-live regions for dynamic content</strong>
+            <span>When the feed is filtered or resources are searched, count updates are wrapped in <code>aria-live="polite"</code> so screen reader users hear the result count update without being interrupted.</span>
+          </div>
+        </div>
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>Decorative images marked aria-hidden</strong>
+            <span>SVG icons, gradient backgrounds, and decorative illustrations are marked <code>aria-hidden="true"</code> so screen readers skip them.</span>
+          </div>
+        </div>
+        <div class="a11y-item" role="listitem">
+          <div class="a11y-check" aria-hidden="true">✓</div>
+          <div class="a11y-text">
+            <strong>Responsive design to 320px</strong>
+            <span>The layout responds at 1080px (hides right sidebar), 768px (hides left sidebar, collapses nav), and 480px (single-column resource grid). Minimum font size is 11px.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Tradeoffs -->
+    <section class="rationale-section" id="tradeoffs" aria-labelledby="tradeoffs-heading">
+      <div class="rationale-num" aria-hidden="true">08</div>
+      <h2 class="rationale-heading" id="tradeoffs-heading">Tradeoffs & Open Questions</h2>
+
+      <div class="rationale-body">
+        <p>Every design has unresolved tensions. Here's an honest account of what this prototype leaves open:</p>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num" aria-hidden="true">?</div>
+        <div class="principle-text">
+          <h4>Feed algorithm vs. chronology</h4>
+          <p>This prototype shows a simple reverse-chronological feed. A real platform would need a ranking algorithm — but optimizing for engagement on a support community can surface drama over depth. How do you rank for <em>quality</em> of support rather than raw interaction? This needs product and community research to answer.</p>
+        </div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num" aria-hidden="true">?</div>
+        <div class="principle-text">
+          <h4>Privacy and vulnerability in a social feed</h4>
+          <p>Lean In users share deeply personal things in their Circles. Showing Circle posts in an open feed (even with filters) may inhibit the vulnerability that makes Circles powerful. The badge system helps, but whether posts should default to Circle-only visibility is an open product question.</p>
+        </div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num" aria-hidden="true">?</div>
+        <div class="principle-text">
+          <h4>Mobile-first vs. desktop-first</h4>
+          <p>This prototype is designed desktop-first with a responsive breakpoint. But community platforms increasingly live on mobile. A true redesign should include dedicated mobile wireframes — especially for the Circle meeting flow, which is likely accessed on the go.</p>
+        </div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num" aria-hidden="true">?</div>
+        <div class="principle-text">
+          <h4>Internationalization</h4>
+          <p>Lean In has 55,000+ Circles in 184 countries. This prototype is English-only with a US-centric date format. Internationalization — especially RTL language support — would change some layout assumptions meaningfully.</p>
+        </div>
+      </div>
+
+      <div class="quote-block" role="blockquote" style="margin-top:40px;">
+        <p>"A prototype is a question, not an answer. The best thing this design can do is clarify which questions matter most."</p>
+        <div class="quote-attribution">— Design principle</div>
+      </div>
+
+      <div style="margin-top: 48px; text-align: center;">
+        <p style="margin-bottom: 20px; font-size:15px;">Explore the prototype:</p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="index.html" class="btn-sm btn-primary btn-lg">Home Feed</a>
+          <a href="explainer.html" class="btn-sm btn-outline btn-lg">Circles Explainer</a>
+          <a href="resources.html" class="btn-sm btn-ghost btn-lg">Resource Library</a>
+        </div>
+      </div>
+
+    </section>
+
+  </div><!-- /rationale-content -->
+</div>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-logo">Lean In</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="explainer.html">About Circles</a>
+    <a href="resources.html">Resources</a>
+    <a href="#">Privacy</a>
+  </div>
+  <p>© 2025 Lean In · Prototype redesign concept</p>
+</footer>
+
+<script>
+  // Highlight active ToC link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`.toc-list a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
