@@ -403,6 +403,7 @@ p { color: var(--gray); line-height: 1.7; }
 .dot-red { background: var(--red); }
 .dot-purple { background: #7B4FD4; }
 .dot-teal { background: #169C8A; }
+.dot-green { background: #169C5A; }
 
 .membership-item-info {}
 .membership-item-type {
