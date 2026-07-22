@@ -224,9 +224,7 @@
     }
 
     .circle-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      text-align: center;
     }
 
     .circle-spots {
@@ -268,7 +266,7 @@
       color: var(--gray);
     }
 
-    .no-circles .empty-icon { font-size: 40px; margin-bottom: 12px; }
+    .no-circles .empty-icon { margin-bottom: 12px; }
     .no-circles p { font-size: 15px; }
 
     /* What is a Circle — collapsible */
@@ -376,15 +374,10 @@
 <!-- Top Nav -->
 <nav class="topnav" role="navigation" aria-label="Main navigation">
   <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">
-    <img src="logo-lean_in.png" alt="Lean In" style="height: 32px;">
+    <span style="font-family: Georgia, serif; font-weight: 700; font-size: 20px; letter-spacing: 2px; color: white;">LEAN <span style="color: #E2231A;">IN</span></span>
   </a>
 
-  <div class="nav-search" role="search">
-    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
-    </svg>
-    <input type="search" placeholder="Search Lean In Connect…" aria-label="Search">
-  </div>
+  <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#128269;</button>
 
   <nav class="nav-links" aria-label="Primary">
     <a href="index.html" class="nav-link">
@@ -393,13 +386,13 @@
       </svg>
       Home
     </a>
-    <a href="circles.html" class="nav-link active" aria-current="page">
+    <a href="explore.html" class="nav-link active" aria-current="page">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
       </svg>
       Circles
     </a>
-    <a href="networks.html" class="nav-link">
+    <a href="explore.html" class="nav-link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
       </svg>
@@ -414,6 +407,7 @@
   </nav>
 
   <div class="nav-right">
+    <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#10024;</button>
     <button class="nav-icon-btn" aria-label="Notifications">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
@@ -774,7 +768,7 @@
 
       <!-- Empty state -->
       <div class="no-circles" id="no-circles" role="status" aria-live="polite">
-        <div class="empty-icon">🔍</div>
+        <div class="empty-icon"></div>
         <p>No Circles match that search. Try a different term or browse all.</p>
       </div>
 
@@ -798,42 +792,42 @@
       <div class="collapsible-body" id="what-is-body" role="region" aria-labelledby="what-is-trigger">
         <div class="what-is-grid">
           <div class="what-is-item">
-            <div class="what-is-icon" aria-hidden="true">👥</div>
+            <div class="what-is-icon" aria-hidden="true"></div>
             <div class="what-is-text">
               <strong>Small on purpose</strong>
               <span>8–12 women — small enough that everyone actually knows each other.</span>
             </div>
           </div>
           <div class="what-is-item">
-            <div class="what-is-icon" aria-hidden="true">📅</div>
+            <div class="what-is-icon" aria-hidden="true"></div>
             <div class="what-is-text">
               <strong>Meets regularly</strong>
               <span>Monthly or bi-weekly, in person or virtually — whatever works for your group.</span>
             </div>
           </div>
           <div class="what-is-item">
-            <div class="what-is-icon" aria-hidden="true">🤝</div>
+            <div class="what-is-icon" aria-hidden="true"></div>
             <div class="what-is-text">
               <strong>Peer-led</strong>
               <span>No outside facilitator. Members take turns leading using Lean In's curriculum.</span>
             </div>
           </div>
           <div class="what-is-item">
-            <div class="what-is-icon" aria-hidden="true">📚</div>
+            <div class="what-is-icon" aria-hidden="true"></div>
             <div class="what-is-text">
               <strong>Follows Lean In curriculum</strong>
               <span>Sessions cover topics like negotiation, ambition, mentorship, and leadership.</span>
             </div>
           </div>
           <div class="what-is-item">
-            <div class="what-is-icon" aria-hidden="true">🆓</div>
+            <div class="what-is-icon" aria-hidden="true"></div>
             <div class="what-is-text">
               <strong>Always free</strong>
               <span>No membership fees, no subscriptions. Circles are free to start and free to join.</span>
             </div>
           </div>
           <div class="what-is-item">
-            <div class="what-is-icon" aria-hidden="true">🔒</div>
+            <div class="what-is-icon" aria-hidden="true"></div>
             <div class="what-is-text">
               <strong>Private &amp; trusted</strong>
               <span>What's shared in Circle stays in Circle. These are your people.</span>
@@ -851,7 +845,7 @@
   <div class="footer-logo">Lean In</div>
   <div class="footer-links">
     <a href="index.html">Home</a>
-    <a href="networks.html">Networks</a>
+    <a href="explore.html">Explore</a>
     <a href="resources.html">Resources</a>
     <a href="rationale.html">Design Notes</a>
   </div>

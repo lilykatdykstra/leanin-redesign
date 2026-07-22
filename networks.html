@@ -55,6 +55,7 @@
     .network-card {
       background: var(--white);
       border: 1px solid var(--border);
+      border-left: 3px solid #8B1A1A;
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
@@ -63,18 +64,18 @@
     }
     .network-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
-    .network-card-banner {
-      height: 72px;
-      display: flex; align-items: center; padding: 0 20px;
-      position: relative;
-    }
-    .network-card-banner-city { background: linear-gradient(135deg, #7B4FD4, #A67BF8); }
-    .network-card-banner-industry { background: linear-gradient(135deg, #1A6BE2, #4F9BF8); }
-    .network-card-banner-global { background: linear-gradient(135deg, #169C8A, #47D6C8); }
-
-    .network-banner-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: rgba(255,255,255,0.8);
+    .network-type-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: #FFF0EF;
+      color: #8B1A1A;
+      margin-bottom: 10px;
     }
 
     .network-card-body { padding: 20px 20px 0; flex: 1; }
@@ -93,7 +94,7 @@
 
     .network-card-footer {
       padding: 16px 20px;
-      display: flex; align-items: center; justify-content: space-between;
+      text-align: center;
     }
     .network-member-count { font-size: 12px; color: var(--gray); }
 
@@ -122,15 +123,10 @@
 
 <nav class="topnav" role="navigation" aria-label="Main navigation">
   <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">
-    <img src="logo-lean_in.png" alt="Lean In" style="height: 32px;">
+    <span style="font-family: Georgia, serif; font-weight: 700; font-size: 20px; letter-spacing: 2px; color: white;">LEAN <span style="color: #E2231A;">IN</span></span>
   </a>
 
-  <div class="nav-search" role="search">
-    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
-    </svg>
-    <input type="search" placeholder="Search Lean In Connect…" aria-label="Search">
-  </div>
+  <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#128269;</button>
 
   <nav class="nav-links" aria-label="Primary">
     <a href="index.html" class="nav-link">
@@ -139,13 +135,13 @@
       </svg>
       Home
     </a>
-    <a href="circles.html" class="nav-link">
+    <a href="explore.html" class="nav-link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
       </svg>
       Circles
     </a>
-    <a href="networks.html" class="nav-link active" aria-current="page">
+    <a href="explore.html" class="nav-link active" aria-current="page">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
       </svg>
@@ -160,6 +156,7 @@
   </nav>
 
   <div class="nav-right">
+    <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#10024;</button>
     <button class="nav-icon-btn" aria-label="Notifications">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
@@ -200,10 +197,8 @@
     <div class="networks-grid" id="networks-grid" role="list">
 
       <div class="network-card" data-type="city" data-name="lean in bay area san francisco" role="listitem">
-        <div class="network-card-banner network-card-banner-city">
-          <span class="network-banner-label">📍 City Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">City Network</span>
           <h3>Lean In Bay Area</h3>
           <p class="network-description">San Francisco, Oakland, and the Peninsula. Monthly events, job board, and a community of women building the future of tech.</p>
           <div class="network-meta">
@@ -224,10 +219,8 @@
       </div>
 
       <div class="network-card" data-type="industry" data-name="product leaders women tech" role="listitem">
-        <div class="network-card-banner network-card-banner-industry">
-          <span class="network-banner-label">💼 Industry Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">Industry Network</span>
           <h3>Product Leaders Network</h3>
           <p class="network-description">For women in product management, from APMs to CPOs. Discussions on roadmapping, stakeholder alignment, and the path to the C-suite.</p>
           <div class="network-meta">
@@ -248,10 +241,8 @@
       </div>
 
       <div class="network-card" data-type="city" data-name="lean in new york" role="listitem">
-        <div class="network-card-banner network-card-banner-city">
-          <span class="network-banner-label">📍 City Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">City Network</span>
           <h3>Lean In New York</h3>
           <p class="network-description">NYC's home for ambitious women across finance, media, fashion, tech, and beyond. One of the largest Lean In Networks in the world.</p>
           <div class="network-meta">
@@ -272,10 +263,8 @@
       </div>
 
       <div class="network-card" data-type="industry" data-name="women in engineering software" role="listitem">
-        <div class="network-card-banner network-card-banner-industry">
-          <span class="network-banner-label">💼 Industry Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">Industry Network</span>
           <h3>Women in Engineering</h3>
           <p class="network-description">Software, hardware, data — all engineers welcome. From IC paths to technical leadership, this is where you find your people in the industry.</p>
           <div class="network-meta">
@@ -296,10 +285,8 @@
       </div>
 
       <div class="network-card" data-type="global" data-name="lean in global diaspora" role="listitem">
-        <div class="network-card-banner network-card-banner-global">
-          <span class="network-banner-label">🌍 Global Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">Global Network</span>
           <h3>Lean In Global</h3>
           <p class="network-description">The worldwide community — open to any Lean In member across all 184 countries. Global events, cross-cultural perspectives, and shared resources.</p>
           <div class="network-meta">
@@ -320,10 +307,8 @@
       </div>
 
       <div class="network-card" data-type="city" data-name="lean in chicago midwest" role="listitem">
-        <div class="network-card-banner network-card-banner-city">
-          <span class="network-banner-label">📍 City Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">City Network</span>
           <h3>Lean In Chicago</h3>
           <p class="network-description">Chicago's network for women across finance, healthcare, design, and tech. Monthly panels, mentorship pairings, and a serious community of leaders.</p>
           <div class="network-meta">
@@ -344,10 +329,8 @@
       </div>
 
       <div class="network-card" data-type="industry" data-name="women healthcare medicine" role="listitem">
-        <div class="network-card-banner network-card-banner-industry">
-          <span class="network-banner-label">💼 Industry Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">Industry Network</span>
           <h3>Women in Healthcare</h3>
           <p class="network-description">Clinicians, administrators, researchers, and health-tech founders. Navigating a demanding industry while building careers that last.</p>
           <div class="network-meta">
@@ -368,10 +351,8 @@
       </div>
 
       <div class="network-card" data-type="global" data-name="women color leadership global" role="listitem">
-        <div class="network-card-banner network-card-banner-global">
-          <span class="network-banner-label">🌍 Global Network</span>
-        </div>
         <div class="network-card-body">
+          <span class="network-type-tag">Global Network</span>
           <h3>Women of Color in Leadership</h3>
           <p class="network-description">A global community for women of color navigating leadership — from micro-aggressions in the boardroom to building the next generation of diverse leadership pipelines.</p>
           <div class="network-meta">
@@ -392,7 +373,7 @@
       </div>
 
       <div class="no-networks" id="no-networks" role="status" aria-live="polite">
-        <div class="empty-icon">🔍</div>
+        <div class="empty-icon"></div>
         <p>No Networks match that search. Try a different term.</p>
       </div>
 
@@ -404,7 +385,7 @@
   <div class="footer-logo">Lean In</div>
   <div class="footer-links">
     <a href="index.html">Home</a>
-    <a href="circles.html">Circles</a>
+    <a href="explore.html">Explore</a>
     <a href="resources.html">Resources</a>
     <a href="rationale.html">Design Notes</a>
   </div>

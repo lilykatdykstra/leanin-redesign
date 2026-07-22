@@ -162,14 +162,11 @@
 
 <!-- ── Top Nav ── -->
 <nav class="topnav" role="navigation" aria-label="Main navigation">
-  <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">Lean <span>In</span></a>
+  <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">
+    <span style="font-family: Georgia, serif; font-weight: 700; font-size: 20px; letter-spacing: 2px; color: white;">LEAN <span style="color: #E2231A;">IN</span></span>
+  </a>
 
-  <div class="nav-search" role="search">
-    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
-    </svg>
-    <input type="search" placeholder="Search Lean In Connect…" aria-label="Search">
-  </div>
+  <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#128269;</button>
 
   <nav class="nav-links" aria-label="Primary">
     <a href="index.html" class="nav-link">
@@ -178,13 +175,13 @@
       </svg>
       Home
     </a>
-    <a href="circles.html" class="nav-link">
+    <a href="explore.html" class="nav-link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
       </svg>
       Circles
     </a>
-    <a href="networks.html" class="nav-link">
+    <a href="explore.html" class="nav-link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
       </svg>
@@ -199,6 +196,7 @@
   </nav>
 
   <div class="nav-right">
+    <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#10024;</button>
     <button class="nav-icon-btn" aria-label="Notifications">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
@@ -254,7 +252,7 @@
     <!-- Circles -->
     <section class="concept-block" aria-labelledby="circles-heading">
       <div class="concept-visual">
-        <div class="concept-icon concept-icon-red">⭕</div>
+        <div class="concept-icon concept-icon-red"></div>
         <p style="font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--red); margin-bottom:16px;">Circle members</p>
         <div class="concept-circle-diagram">
           <div class="circle-row">
@@ -307,26 +305,22 @@
     <!-- Networks -->
     <section class="concept-block reverse" aria-labelledby="networks-heading">
       <div class="concept-visual">
-        <div class="concept-icon concept-icon-purple">🌐</div>
+        <div class="concept-icon concept-icon-purple"></div>
         <p style="font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#7B4FD4; margin-bottom:16px;">Your city or industry</p>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;">
           <div style="background:#F0EEFF; border-radius:8px; padding:10px; text-align:center;">
-            <div style="font-size:18px; margin-bottom:4px;">📍</div>
             <div style="font-size:11px; font-weight:600; color:#7B4FD4;">Bay Area</div>
             <div style="font-size:11px; color:var(--gray);">3.2k members</div>
           </div>
           <div style="background:#F0EEFF; border-radius:8px; padding:10px; text-align:center;">
-            <div style="font-size:18px; margin-bottom:4px;">💻</div>
             <div style="font-size:11px; font-weight:600; color:#7B4FD4;">Tech Leaders</div>
             <div style="font-size:11px; color:var(--gray);">8.7k members</div>
           </div>
           <div style="background:#F0EEFF; border-radius:8px; padding:10px; text-align:center;">
-            <div style="font-size:18px; margin-bottom:4px;">⚕️</div>
             <div style="font-size:11px; font-weight:600; color:#7B4FD4;">Healthcare</div>
             <div style="font-size:11px; color:var(--gray);">5.1k members</div>
           </div>
           <div style="background:#F0EEFF; border-radius:8px; padding:10px; text-align:center;">
-            <div style="font-size:18px; margin-bottom:4px;">🎓</div>
             <div style="font-size:11px; font-weight:600; color:#7B4FD4;">Education</div>
             <div style="font-size:11px; color:var(--gray);">2.9k members</div>
           </div>
@@ -366,25 +360,22 @@
     <!-- Groups -->
     <section class="concept-block" aria-labelledby="groups-heading">
       <div class="concept-visual">
-        <div class="concept-icon concept-icon-teal">💬</div>
+        <div class="concept-icon concept-icon-teal"></div>
         <p style="font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#169C8A; margin-bottom:16px;">Popular groups</p>
         <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
           <div style="display:flex; align-items:center; gap:10px; padding:10px; background:#E8FFF6; border-radius:8px;">
-            <span style="font-size:18px;">💼</span>
             <div>
               <div style="font-size:13px; font-weight:600; color:var(--text);">Salary Negotiation Tips</div>
               <div style="font-size:11px; color:var(--gray);">4.2k members</div>
             </div>
           </div>
           <div style="display:flex; align-items:center; gap:10px; padding:10px; background:#E8FFF6; border-radius:8px;">
-            <span style="font-size:18px;">🌱</span>
             <div>
               <div style="font-size:13px; font-weight:600; color:var(--text);">First-Time Managers</div>
               <div style="font-size:11px; color:var(--gray);">2.8k members</div>
             </div>
           </div>
           <div style="display:flex; align-items:center; gap:10px; padding:10px; background:#E8FFF6; border-radius:8px;">
-            <span style="font-size:18px;">✨</span>
             <div>
               <div style="font-size:13px; font-weight:600; color:var(--text);">Women Who Lead</div>
               <div style="font-size:11px; color:var(--gray);">11.4k members</div>
@@ -431,9 +422,9 @@
         <thead>
           <tr>
             <th scope="col"></th>
-            <th scope="col" class="col-circle">⭕ Circle</th>
-            <th scope="col" class="col-network">🌐 Network</th>
-            <th scope="col" class="col-group">💬 Group</th>
+            <th scope="col" class="col-circle">Circle</th>
+            <th scope="col" class="col-network">Network</th>
+            <th scope="col" class="col-group">Group</th>
           </tr>
         </thead>
         <tbody>

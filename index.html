@@ -10,14 +10,11 @@
 
 <!-- ── Top Nav ── -->
 <nav class="topnav" role="navigation" aria-label="Main navigation">
-  <a href="index.html" class="nav-logo" aria-label="Lean In Connect home"><img src="logo-lean_in.png" alt="Lean In" style="height: 32px;"></a>
+  <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">
+    <span style="font-family: Georgia, serif; font-weight: 700; font-size: 20px; letter-spacing: 2px; color: white;">LEAN <span style="color: #E2231A;">IN</span></span>
+  </a>
 
-  <div class="nav-search" role="search">
-    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
-    </svg>
-    <input type="search" placeholder="Search Lean In Connect…" aria-label="Search">
-  </div>
+  <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#128269;</button>
 
   <nav class="nav-links" aria-label="Primary">
     <a href="index.html" class="nav-link active" aria-current="page">
@@ -26,13 +23,13 @@
       </svg>
       Home
     </a>
-    <a href="circles.html" class="nav-link">
+    <a href="explore.html" class="nav-link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
       </svg>
       Circles
     </a>
-    <a href="networks.html" class="nav-link">
+    <a href="explore.html" class="nav-link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
       </svg>
@@ -47,6 +44,7 @@
   </nav>
 
   <div class="nav-right">
+    <button style="background:none; border:none; cursor:pointer; color:white; font-size:18px;">&#10024;</button>
     <button class="nav-icon-btn" aria-label="Notifications (3 unread)">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
@@ -100,7 +98,7 @@
         <div class="membership-section">
           <div class="membership-label">My Communities</div>
 
-          <a href="circles.html" class="membership-item">
+          <a href="explore.html" class="membership-item">
             <div class="membership-dot dot-red"></div>
             <div class="membership-item-info">
               <div class="membership-item-type">Circle</div>
@@ -108,7 +106,7 @@
             </div>
           </a>
 
-          <a href="networks.html" class="membership-item">
+          <a href="explore.html" class="membership-item">
             <div class="membership-dot dot-purple"></div>
             <div class="membership-item-info">
               <div class="membership-item-type">Network</div>
@@ -116,7 +114,7 @@
             </div>
           </a>
 
-          <a href="networks.html" class="membership-item">
+          <a href="explore.html" class="membership-item">
             <div class="membership-dot dot-teal"></div>
             <div class="membership-item-info">
               <div class="membership-item-type">Network</div>
@@ -132,7 +130,7 @@
           <div class="membership-label">My Groups</div>
 
           <a href="#" class="group-item">
-            <div class="group-icon" style="background: #FFF0EF;">💼</div>
+            <div class="group-icon" style="background: #FFF0EF;"></div>
             <div class="group-info">
               <div class="group-name">Salary Negotiation Tips</div>
               <div class="group-count">4.2k members</div>
@@ -140,7 +138,7 @@
           </a>
 
           <a href="#" class="group-item">
-            <div class="group-icon" style="background: #F0EEFF;">🌱</div>
+            <div class="group-icon" style="background: #F0EEFF;"></div>
             <div class="group-info">
               <div class="group-name">First-Time Managers</div>
               <div class="group-count">2.8k members</div>
@@ -148,7 +146,7 @@
           </a>
 
           <a href="#" class="group-item">
-            <div class="group-icon" style="background: #E8FFF6;">✨</div>
+            <div class="group-icon" style="background: #E8FFF6;"></div>
             <div class="group-info">
               <div class="group-name">Women Who Lead</div>
               <div class="group-count">11.4k members</div>
@@ -242,15 +240,15 @@
         <div class="post-body">
           <p>Just had my annual review and successfully negotiated a 22% raise — something I genuinely wasn't sure I could do six months ago. The thing that shifted everything? Our Circle's session on anchoring and BATNA.</p>
           <p>I walked in with a specific number backed by market research, stayed calm when they pushed back, and actually said <em>"I need a moment to think about that"</em> out loud. The silence didn't kill me. They came back with an offer 18% above where we started.</p>
-          <p>If you're preparing to negotiate: know your number, know theirs, and practice saying it out loud until it feels normal. You've got this. 💙</p>
+          <p>If you're preparing to negotiate: know your number, know theirs, and practice saying it out loud until it feels normal. You've got this.</p>
         </div>
 
         <div class="post-stats">
           <div style="display:flex; align-items:center; gap:8px;">
             <div class="like-faces" aria-hidden="true">
-              <div class="like-face" style="background:#E2231A;">❤️</div>
-              <div class="like-face" style="background:#7B4FD4;">👏</div>
-              <div class="like-face" style="background:#169C5A;">🙌</div>
+              <div class="like-face" style="background:#E2231A;"></div>
+              <div class="like-face" style="background:#7B4FD4;"></div>
+              <div class="like-face" style="background:#169C5A;"></div>
             </div>
             <span>147 reactions</span>
           </div>
@@ -325,8 +323,8 @@
         <div class="post-stats">
           <div style="display:flex; align-items:center; gap:8px;">
             <div class="like-faces" aria-hidden="true">
-              <div class="like-face" style="background:#E2231A;">❤️</div>
-              <div class="like-face" style="background:#7B4FD4;">🔥</div>
+              <div class="like-face" style="background:#E2231A;"></div>
+              <div class="like-face" style="background:#7B4FD4;"></div>
             </div>
             <span>312 reactions</span>
           </div>
@@ -390,9 +388,9 @@
         <div class="post-stats">
           <div style="display:flex; align-items:center; gap:8px;">
             <div class="like-faces" aria-hidden="true">
-              <div class="like-face" style="background:#E2231A;">❤️</div>
-              <div class="like-face" style="background:#169C5A;">🙌</div>
-              <div class="like-face" style="background:#B8860B;">⭐</div>
+              <div class="like-face" style="background:#E2231A;"></div>
+              <div class="like-face" style="background:#169C5A;"></div>
+              <div class="like-face" style="background:#B8860B;"></div>
             </div>
             <span>203 reactions</span>
           </div>
@@ -456,8 +454,8 @@
         <div class="post-stats">
           <div style="display:flex; align-items:center; gap:8px;">
             <div class="like-faces" aria-hidden="true">
-              <div class="like-face" style="background:#E2231A;">🔥</div>
-              <div class="like-face" style="background:#7B4FD4;">👏</div>
+              <div class="like-face" style="background:#E2231A;"></div>
+              <div class="like-face" style="background:#7B4FD4;"></div>
             </div>
             <span>89 reactions</span>
           </div>
@@ -513,7 +511,7 @@
         </div>
 
         <div class="post-body">
-          <p>I got the promotion. 🎉</p>
+          <p>I got the promotion.</p>
           <p>Staff Engineer → Engineering Manager. It took 18 months of deliberate work, two failed attempts, and more feedback than I ever thought I could absorb without breaking.</p>
           <p>But I want to say clearly: I didn't do this alone. This Circle helped me get there. The accountability check-ins. The "here's what I observed in you this month" feedback. The person who once said to me, <em>"You keep qualifying every great thing you say about yourself — stop."</em></p>
           <p>That stuck with me. Thank you all. I'll be the one buying coffee next meeting.</p>
@@ -522,9 +520,9 @@
         <div class="post-stats">
           <div style="display:flex; align-items:center; gap:8px;">
             <div class="like-faces" aria-hidden="true">
-              <div class="like-face" style="background:#E2231A;">❤️</div>
-              <div class="like-face" style="background:#169C5A;">🎉</div>
-              <div class="like-face" style="background:#7B4FD4;">👑</div>
+              <div class="like-face" style="background:#E2231A;"></div>
+              <div class="like-face" style="background:#169C5A;"></div>
+              <div class="like-face" style="background:#7B4FD4;"></div>
             </div>
             <span>418 reactions</span>
           </div>
@@ -663,7 +661,7 @@
 <footer class="site-footer" role="contentinfo">
   <div class="footer-logo">Lean In</div>
   <div class="footer-links">
-    <a href="circles.html">Circles</a>
+    <a href="explore.html">Explore</a>
     <a href="resources.html">Resources</a>
     <a href="rationale.html">Design Notes</a>
     <a href="#">Privacy</a>
@@ -709,7 +707,7 @@
         const feed = document.querySelector('#main-content');
         const empty = document.createElement('div');
         empty.className = 'empty-state empty-state-msg card';
-        empty.innerHTML = '<div class="empty-icon">💭</div><p>No posts here yet — check back soon or switch tabs.</p>';
+        empty.innerHTML = '<div class="empty-icon"></div><p>No posts here yet — check back soon or switch tabs.</p>';
         feed.appendChild(empty);
       }
     });
