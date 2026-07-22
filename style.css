@@ -313,7 +313,7 @@ p { color: var(--gray); line-height: 1.7; }
 /* ── Left Sidebar: Profile Card ── */
 .profile-card .profile-cover {
   height: 64px;
-  background: #D4C4B0;
+  background: #FDEAEA;
 }
 
 .profile-card .profile-info {
