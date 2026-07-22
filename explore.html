@@ -309,6 +309,7 @@
   </nav>
 
   <div class="nav-right">
+    <button class="hamburger-menu" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
     <a href="rationale.html" class="nav-process-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Process
@@ -325,6 +326,18 @@
     <div class="avatar sm a-me" role="img" aria-label="Your profile">LD</div>
   </div>
 </nav>
+
+<div class="mobile-nav-menu" id="mobile-nav-menu">
+  <a href="index.html">Home</a>
+  <a href="explore.html" class="active">Communities</a>
+  <a href="resources.html">Resources</a>
+  <a href="rationale.html">Process</a>
+</div>
+<script>
+  function toggleMobileMenu() {
+    document.querySelector('.mobile-nav-menu').classList.toggle('open');
+  }
+</script>
 
 <div class="page-body" id="explore-top">
 

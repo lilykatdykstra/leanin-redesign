@@ -149,6 +149,7 @@
   </nav>
 
   <div class="nav-right">
+    <button class="hamburger-menu" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
     <a href="rationale.html" class="nav-process-link active" aria-current="page">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Process
@@ -166,6 +167,18 @@
   </div>
 </nav>
 
+<div class="mobile-nav-menu" id="mobile-nav-menu">
+  <a href="index.html">Home</a>
+  <a href="explore.html">Communities</a>
+  <a href="resources.html">Resources</a>
+  <a href="rationale.html" class="active">Process</a>
+</div>
+<script>
+  function toggleMobileMenu() {
+    document.querySelector('.mobile-nav-menu').classList.toggle('open');
+  }
+</script>
+
 <div class="page-body">
 
   <!-- Hero -->
@@ -181,7 +194,7 @@
       <div class="rat-section-label">Overview</div>
       <h2 class="rat-section-title">The brief and where I started</h2>
       <div class="rat-body">
-        <p>This prototype is a redesign of Lean In Connect, the community platform at connect.leanin.org. I was given the brief: find something worth improving and build it. I started by actually using the platform as a new user, and that experience greatly informed everything that followed.</p>
+        <p>This prototype is a redesign of Lean In Connect, the community platform at connect.leanin.org. I was given the brief: find something worth improving and build it. I started by actually using the platform as a new user, and that experience greatly informed me.</p>
       </div>
     </div>
   </section>
@@ -196,9 +209,9 @@
         <p>A few specific things stood out:</p>
         <ul>
           <li>The search bar sat in an awkward position that felt disconnected from the rest of the layout. It read as a navigational element placed inside content space, which broke the visual logic of the page.</li>
-          <li>The "Share something with the community" prompt felt passive and unclear. On a platform where posting is a primary action, burying it in a text input rather than a clear "Create a post" button undersells the action and makes the interface feel like a social media afterthought rather than a purposeful community tool.</li>
+          <li>The "Share something with the community" prompt felt passive and unclear. On a platform where posting is a primary action, burying it in a text input rather than a clear "Make a post" button undersells the action and makes the interface feel like a social media afterthought rather than a purposeful community tool.</li>
           <li>The feed was overwhelming. Everything was presented at the same visual weight with no way to filter by what actually mattered to me — my Circle, my Network, or things I'd saved. There was content from people I didn't know, in communities I wasn't part of, with no hierarchy. It felt like opening Twitter for the first time with no follows.</li>
-          <li>Most importantly: I had no idea what a Circle was versus a Network versus a Group. The platform assumed I already knew. There was no onboarding, no explanation, and no clear path to figuring it out. For a platform built on the idea that women should feel supported and welcomed, the new user experience felt surprisingly cold.</li>
+          <li>Most importantly: I had no idea what a Circle was versus a Network versus a Group. The platform assumed I already knew. There was no onboarding, no explanation, and no clear path to figuring it out. For a platform built on the idea that women should feel supported and welcomed, the new user experience felt like it assumed more familiarity than most new members would have..</li>
         </ul>
       </div>
     </div>
@@ -218,18 +231,18 @@
 
         <div class="rat-decision">
           <div class="rat-decision-title">Merging Circles, Networks, and Groups into one Explore page</div>
-          <p>Keeping these as three separate nav items would have created exactly the cognitive overload I experienced as a new user. Three different words, three different pages, three different explanations. It's too much before someone has even joined anything. Bringing them together under "Communities" with a single Explore page and a sub-filter (All / Circles / Networks / Groups) lets users see the full landscape at once, compare them, and make a choice. The nav item named "Communities" is also more intuitive than any of the three individual terms for someone who doesn't yet know the difference.</p>
+          <p>Keeping these as three separate nav items would have created exactly the cognitive overload I experienced as a new user. Three different words, three different pages, three different explanations. It's too much before someone has even joined anything. Bringing them together under "Communities" with a single Explore page and a sub-filter (All / Circles / Networks / Groups) lets users see the full landscape at once, compare them, and make a choice. The nav item name "Communities" is also more intuitive than any of the three individual terms for someone who doesn't yet know the difference.</p>
         </div>
 
         <div class="rat-decision">
           <div class="rat-decision-title">The "Understanding our communities" explainer section</div>
-          <p>This came directly from my own experience: I signed up and genuinely didn't know which one to join or why. I wasn't sure if I needed all three or just one. I didn't know if a Circle was better than a Network or vice versa. That uncertainty is a real abandonment risk: if someone doesn't know what they're joining, they won't join anything. Adding a simple, friendly explanation at the bottom of the Explore page — not as a separate page, not hidden in an FAQ — means the information is available exactly when someone needs it, without interrupting the browsing experience. It also signals something culturally important: not knowing everything is okay here. You're welcome even if you're figuring it out.</p>
+          <p>This came directly from my own experience: I signed up and genuinely didn't know which one to join or why. I wasn't sure if I needed all three or just one. I didn't know if a Circle was better than a Network or vice versa. That uncertainty is a real abandonment risk: if someone doesn't know what they're joining, they won't join anything. Adding a simple, friendly explanation at the bottom of the Explore page (not as a separate page, not hidden in an FAQ) means the information is available exactly when someone needs it, without interrupting the browsing experience. It also signals something culturally important: not knowing everything is okay here. You're welcome even if you're figuring it out</p>
         </div>
 
         <div class="rat-decision">
           <div class="rat-decision-title">Color palette: warm cream, deep red, blush accents</div>
           <p>The warm cream background (#F5F0EB) was a deliberate choice over pure white. White is clinical and flat, whereas cream is warmer, easier on the eyes over extended sessions, and feels more like a space you'd want to spend time in. It also gives the red accents more room to breathe without feeling harsh.</p>
-          <p>The red itself was a considered decision. I wanted to embrace Lean In's existing brand identity — red is theirs, it's bold, it's confident — but push it slightly warmer and deeper (#C41E3A) so it reads as sophisticated rather than alarming. I didn't want to soften the palette into pastels or neutrals, because that felt like doing the thing the platform exists to push back against: dimming women's voices to make them more palatable. I wanted bright, warm, and unapologetically feminine without being overwhelming. Pinks and reds and blushes are welcome here.</p>
+          <p>The red itself was a considered decision. I wanted to embrace Lean In's existing brand identity, red is theirs, it's bold, it's confident, but push it slightly warmer and deeper (#C41E3A) so it reads as sophisticated rather than alarming. I didn't want to soften the palette into pastels or neutrals, because that felt like shrinking the palette to make it more conservative, the opposite of what Lean In stands for. I wanted bright, warm, and unapologetically feminine without being overwhelming. Pinks and reds and blushes are welcome here.</p>
         </div>
 
         <div class="rat-decision">
@@ -248,7 +261,7 @@
       <h2 class="rat-section-title">If I had more time</h2>
       <div class="rat-body">
         <p>If I had more time, the thing I'd most want to build is an onboarding flow: a short, guided experience that walks a new member through the platform on their first login. What is a Circle? Here's how to find one. What's in your feed? Here's how to filter it. It could be as simple as a tooltip walkthrough or as rich as a short video, but the goal would be the same: make sure no one lands on Connect and feels as lost as I did. A well-designed onboarding flow would address almost every friction point I identified in the audit, and it would make every other part of the platform more usable by default.</p>
-        <p>I'd also invest more time in the profile completion experience. Right now filling out your bio and personal prompts feels disconnected from the rest of the platform. Tying profile completion to community discovery — "Tell us what you're working on and we'll suggest Circles" — would make the whole thing feel more purposeful.</p>
+        <p>I'd also invest more time in the profile completion experience. Right now filling out your bio and personal prompts feels disconnected from the rest of the platform. Tying profile completion to community discovery (e.g. "Tell us what you're working on and we'll suggest Circles") would make the whole thing feel more purposeful.</p>
       </div>
     </div>
   </section>
