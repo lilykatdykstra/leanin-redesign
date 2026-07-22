@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore — Lean In Connect</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Header ── */
+    .explore-header {
+      background: var(--color-card);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 0;
+      text-align: center;
+    }
+    .explore-header h1 { font-size: 2.25rem; margin-bottom: 10px; }
+    .explore-header > p {
+      font-size: 16px; color: var(--gray);
+      max-width: 520px; margin: 0 auto 28px;
+    }
+
+    .explore-search-wrap { max-width: 520px; margin: 0 auto 32px; }
+    .explore-search {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: var(--radius-pill); padding: 13px 20px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .explore-search:focus-within {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(196,30,58,0.10);
+    }
+    .explore-search svg { width: 18px; height: 18px; color: var(--gray); flex-shrink: 0; }
+    .explore-search input {
+      flex: 1; background: none; border: none; outline: none;
+      font-family: var(--font-sans); font-size: 15px; color: var(--text);
+    }
+    .explore-search input::placeholder { color: var(--gray); }
+
+    /* ── Main tabs ── */
+    .explore-tabs {
+      display: flex;
+      justify-content: center;
+    }
+    .explore-tab {
+      padding: 14px 32px;
+      font-size: 14px; font-weight: 600; color: var(--gray);
+      border-bottom: 3px solid transparent;
+      cursor: pointer; transition: color 0.15s, border-color 0.15s;
+      background: none; border-top: none; border-left: none; border-right: none;
+      font-family: var(--font-sans);
+    }
+    .explore-tab:hover { color: var(--text); }
+    .explore-tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ── Body ── */
+    .explore-body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+    }
+
+    /* ── Toolbar ── */
+    .explore-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+    }
+    .explore-count { font-size: 14px; color: var(--gray); }
+    .explore-count strong { color: var(--text); font-weight: 600; }
+
+    .sub-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .sub-chip {
+      padding: 6px 14px; border-radius: var(--radius-pill);
+      font-size: 13px; font-weight: 500;
+      border: 1.5px solid var(--border);
+      background: var(--white); color: var(--gray);
+      cursor: pointer; transition: all 0.15s; font-family: var(--font-sans);
+    }
+    .sub-chip:hover { border-color: var(--red); color: var(--red); }
+    .sub-chip.active { background: var(--red); border-color: var(--red); color: var(--white); }
+
+    /* ── Grid ── */
+    .explore-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── Type pill (shared) ── */
+    .type-pill {
+      display: inline-flex; align-items: center;
+      padding: 4px 10px; border-radius: var(--radius-pill);
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      background: var(--color-pill-bg);
+      color: var(--color-pill-text);
+      white-space: nowrap;
+    }
+
+    /* ── Circle cards ── */
+    .circle-card {
+      background: var(--color-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .circle-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .circle-card-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; margin-bottom: 14px;
+    }
+    .circle-avatar-group { display: flex; }
+    .circle-member-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 2px solid var(--color-card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; color: white;
+      margin-left: -8px;
+    }
+    .circle-member-avatar:first-child { margin-left: 0; }
+
+    .circle-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+    .circle-description { font-size: 13.5px; color: var(--gray); line-height: 1.6; margin-bottom: 16px; flex: 1; }
+
+    .circle-meta {
+      display: flex; gap: 16px; margin-bottom: 18px;
+      padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .circle-meta-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--gray); }
+    .circle-meta-item svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    .circle-card-footer { text-align: center; }
+    .circle-spots { font-size: 12px; color: var(--gray); display: block; margin-bottom: 8px; }
+    .circle-spots.few-left { color: #B45309; font-weight: 500; }
+
+    .btn-join {
+      padding: 9px 20px; background: var(--red); color: var(--white);
+      border: none; border-radius: var(--radius-pill);
+      font-size: 13px; font-weight: 600; font-family: var(--font-sans);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-join:hover { background: var(--red-hover); }
+    .btn-join.pending { background: var(--bg); color: var(--gray); border: 1.5px solid var(--border); }
+
+    /* ── Network cards ── */
+    .network-card {
+      background: var(--color-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid #C41E3A;
+      border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .network-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .network-card-body { padding: 20px 20px 0; flex: 1; }
+    .network-card h3 { font-size: 1.05rem; margin-bottom: 6px; line-height: 1.3; }
+    .network-description { font-size: 13.5px; color: var(--gray); line-height: 1.6; margin-bottom: 16px; }
+
+    .network-meta {
+      display: flex; gap: 16px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .network-meta-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--gray); }
+    .network-meta-item svg { width: 14px; height: 14px; }
+
+    .network-card-footer { padding: 16px 20px; text-align: center; }
+    .network-member-count { font-size: 12px; color: var(--gray); display: block; margin-bottom: 8px; }
+
+    .btn-join-network {
+      padding: 8px 18px; background: transparent;
+      color: var(--red); border: 1.5px solid var(--red);
+      border-radius: var(--radius-pill); font-size: 13px; font-weight: 600;
+      font-family: var(--font-sans); cursor: pointer; transition: all 0.15s;
+    }
+    .btn-join-network:hover { background: var(--color-pill-bg); }
+    .btn-join-network.joined { background: var(--color-pill-bg); color: var(--red); border-color: transparent; }
+
+    /* ── Group cards ── */
+    .group-card {
+      background: var(--color-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .group-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .group-card-top { margin-bottom: 14px; }
+    .group-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+    .group-description { font-size: 13.5px; color: var(--gray); line-height: 1.6; margin-bottom: 16px; flex: 1; }
+
+    .group-meta {
+      display: flex; gap: 16px; margin-bottom: 18px;
+      padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .group-meta-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--gray); }
+    .group-meta-item svg { width: 14px; height: 14px; }
+
+    .group-card-footer { text-align: center; }
+
+    .btn-join-group {
+      padding: 9px 20px; background: transparent;
+      color: var(--red); border: 1.5px solid var(--red);
+      border-radius: var(--radius-pill); font-size: 13px; font-weight: 600;
+      font-family: var(--font-sans); cursor: pointer; transition: all 0.15s;
+    }
+    .btn-join-group:hover { background: var(--color-pill-bg); }
+    .btn-join-group.joined { background: var(--color-pill-bg); color: var(--red); border-color: transparent; }
+
+    /* ── No results ── */
+    .no-results {
+      display: none; grid-column: 1/-1;
+      text-align: center; padding: 64px 24px; color: var(--gray);
+    }
+
+    /* ── My Communities tab ── */
+    .my-communities { display: none; }
+    .my-communities.active { display: block; }
+
+    .my-section { margin-bottom: 40px; }
+    .my-section-heading {
+      font-family: var(--font-serif);
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text); margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .my-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .my-card {
+      background: var(--color-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .my-card-type {
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--gray);
+    }
+    .my-card-name {
+      font-family: var(--font-serif);
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--text); line-height: 1.3;
+    }
+    .my-card-meta { font-size: 13px; color: var(--gray); }
+    .my-card-footer {
+      padding-top: 12px; margin-top: 4px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .btn-view {
+      padding: 8px 24px; background: var(--bg);
+      color: var(--text); border: 1.5px solid var(--border);
+      border-radius: var(--radius-pill); font-size: 13px; font-weight: 600;
+      font-family: var(--font-sans); cursor: pointer; transition: all 0.15s;
+    }
+    .btn-view:hover { border-color: var(--red); color: var(--red); }
+
+    @media (max-width: 640px) {
+      .explore-grid { grid-template-columns: 1fr; }
+      .my-cards { grid-template-columns: 1fr; }
+      .explore-toolbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top Nav ── -->
+<nav class="topnav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="Lean In Connect home">
+    <img src="logo-lean-in.png" alt="Lean In" style="height: 28px; filter: brightness(0) invert(1);">
+  </a>
+
+  <nav class="nav-links" aria-label="Primary">
+    <a href="explore.html" class="nav-link active" aria-current="page">Communities</a>
+    <a href="resources.html" class="nav-link">Resources</a>
+    <a href="explainer.html" class="nav-link">Guide</a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="nav-icon-btn" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="nav-icon-btn" aria-label="Assistant">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+    </button>
+    <button class="nav-icon-btn" aria-label="Notifications">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+    <div class="avatar sm a-me" role="img" aria-label="Your profile">ME</div>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <!-- ── Page Header ── -->
+  <div class="explore-header">
+    <h1>Explore Communities</h1>
+    <p>Find your people — whether that's a small Circle, a larger Network, or a Group.</p>
+
+    <div class="explore-search-wrap">
+      <div class="explore-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+        </svg>
+        <input
+          type="search"
+          id="explore-search-input"
+          placeholder="Search communities…"
+          aria-label="Search communities"
+        >
+      </div>
+    </div>
+
+    <div class="explore-tabs" role="tablist" aria-label="Community sections">
+      <button class="explore-tab active" role="tab" aria-selected="true" data-tab="discover">Discover</button>
+      <button class="explore-tab" role="tab" aria-selected="false" data-tab="my-communities">My Communities</button>
+    </div>
+  </div>
+
+  <div class="explore-body">
+
+    <!-- ════════════════════ DISCOVER TAB ════════════════════ -->
+    <div id="tab-discover">
+
+      <div class="explore-toolbar">
+        <p class="explore-count" aria-live="polite">
+          Showing <strong id="explore-count">19</strong> communities
+        </p>
+        <div class="sub-filters" role="group" aria-label="Filter by community type">
+          <button class="sub-chip active" data-filter="all">All</button>
+          <button class="sub-chip" data-filter="circle">Circles</button>
+          <button class="sub-chip" data-filter="network">Networks</button>
+          <button class="sub-chip" data-filter="group">Groups</button>
+        </div>
+      </div>
+
+      <div class="explore-grid" id="explore-grid" role="list">
+
+        <!-- ───── Circle Cards (8) ───── -->
+
+        <div class="circle-card" data-type="circle" data-name="sf women in tech women in product sf" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#C41E3A;">SC</div>
+              <div class="circle-member-avatar" style="background:#7B4FD4;">MR</div>
+              <div class="circle-member-avatar" style="background:#169C5A;">AJ</div>
+              <div class="circle-member-avatar" style="background:#1A6BE2;">+6</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>Women in Product SF</h3>
+          <p class="circle-description">For product managers and aspiring PMs in the Bay Area. We share war stories, workshop case studies, and hold each other accountable to our career goals.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              9 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Bi-weekly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              San Francisco
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots few-left">2 spots left</span>
+            <button class="btn-join" aria-label="Request to join Women in Product SF">Request to Join</button>
+          </div>
+        </div>
+
+        <div class="circle-card" data-type="circle" data-name="early career designers" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#D4601A;">LP</div>
+              <div class="circle-member-avatar" style="background:#7B4FD4;">KW</div>
+              <div class="circle-member-avatar" style="background:#169C8A;">+5</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>Early Career Designers</h3>
+          <p class="circle-description">UX and visual designers in their first 1–3 years navigating the industry. Portfolio reviews, job hunt support, and surviving your first redesign project.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              7 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Monthly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/></svg>
+              Virtual
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots">3 spots open</span>
+            <button class="btn-join" aria-label="Request to join Early Career Designers">Request to Join</button>
+          </div>
+        </div>
+
+        <div class="circle-card" data-type="circle" data-name="founders and builders entrepreneurship" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#C41E3A;">RP</div>
+              <div class="circle-member-avatar" style="background:#B8860B;">TN</div>
+              <div class="circle-member-avatar" style="background:#169C5A;">CM</div>
+              <div class="circle-member-avatar" style="background:#7B4FD4;">+7</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>Founders &amp; Builders</h3>
+          <p class="circle-description">Women who are building companies, side projects, or making the leap to solopreneurship. Fundraising, customer discovery, and staying sane while doing it all.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              10 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Bi-weekly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              New York
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots few-left">1 spot left</span>
+            <button class="btn-join" aria-label="Request to join Founders and Builders">Request to Join</button>
+          </div>
+        </div>
+
+        <div class="circle-card" data-type="circle" data-name="new managers circle leadership" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#1A6BE2;">JH</div>
+              <div class="circle-member-avatar" style="background:#C41E3A;">OA</div>
+              <div class="circle-member-avatar" style="background:#169C5A;">+5</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>New Managers Circle</h3>
+          <p class="circle-description">For women stepping into their first people-manager role. Navigating performance reviews, having hard conversations, and building team culture without losing yourself.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              7 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Monthly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/></svg>
+              Virtual
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots">4 spots open</span>
+            <button class="btn-join" aria-label="Request to join New Managers Circle">Request to Join</button>
+          </div>
+        </div>
+
+        <div class="circle-card" data-type="circle" data-name="women in engineering tech" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#169C8A;">ZM</div>
+              <div class="circle-member-avatar" style="background:#7B4FD4;">PR</div>
+              <div class="circle-member-avatar" style="background:#C41E3A;">BK</div>
+              <div class="circle-member-avatar" style="background:#1A6BE2;">+5</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>Women in Engineering</h3>
+          <p class="circle-description">Software engineers at all levels working through the unique challenges of being a woman in a technical role — from imposter syndrome to staff engineer paths.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              8 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Bi-weekly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              Seattle
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots">3 spots open</span>
+            <button class="btn-join" aria-label="Request to join Women in Engineering circle">Request to Join</button>
+          </div>
+        </div>
+
+        <div class="circle-card" data-type="circle" data-name="career changers collective pivot" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#D4601A;">NJ</div>
+              <div class="circle-member-avatar" style="background:#169C5A;">FS</div>
+              <div class="circle-member-avatar" style="background:#7B4FD4;">+4</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>Career Changers Collective</h3>
+          <p class="circle-description">For women making bold career pivots — whether that's switching industries, going back to school, or starting something new after years in one field.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              6 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Monthly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/></svg>
+              Virtual
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots">5 spots open</span>
+            <button class="btn-join" aria-label="Request to join Career Changers Collective">Request to Join</button>
+          </div>
+        </div>
+
+        <div class="circle-card" data-type="circle" data-name="executive women chicago leadership senior" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#C41E3A;">AT</div>
+              <div class="circle-member-avatar" style="background:#1A6BE2;">MO</div>
+              <div class="circle-member-avatar" style="background:#D4601A;">SW</div>
+              <div class="circle-member-avatar" style="background:#169C8A;">+6</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>Executive Women Chicago</h3>
+          <p class="circle-description">Senior leaders and directors navigating C-suite dynamics, board relationships, and what it means to lead at scale while staying grounded in your values.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              9 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Monthly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              Chicago
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots few-left">2 spots left</span>
+            <button class="btn-join" aria-label="Request to join Executive Women Chicago">Request to Join</button>
+          </div>
+        </div>
+
+        <div class="circle-card" data-type="circle" data-name="first gen professionals early career" role="listitem">
+          <div class="circle-card-top">
+            <div class="circle-avatar-group" aria-hidden="true">
+              <div class="circle-member-avatar" style="background:#7B4FD4;">DL</div>
+              <div class="circle-member-avatar" style="background:#C41E3A;">YC</div>
+              <div class="circle-member-avatar" style="background:#169C5A;">+5</div>
+            </div>
+            <span class="type-pill">Circle</span>
+          </div>
+          <h3>First-Gen Professionals</h3>
+          <p class="circle-description">For women who are the first in their family to work in corporate or professional environments. Navigating unwritten rules, impostor syndrome, and building wealth from scratch.</p>
+          <div class="circle-meta">
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              7 members
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              Bi-weekly
+            </div>
+            <div class="circle-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/></svg>
+              Virtual
+            </div>
+          </div>
+          <div class="circle-card-footer">
+            <span class="circle-spots">4 spots open</span>
+            <button class="btn-join" aria-label="Request to join First-Gen Professionals">Request to Join</button>
+          </div>
+        </div>
+
+        <!-- ───── Network Cards (8) ───── -->
+
+        <div class="network-card" data-type="network" data-name="lean in bay area san francisco city" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Lean In Bay Area</h3>
+            <p class="network-description">San Francisco, Oakland, and the Peninsula. Monthly events, job board, and a community of women building the future of tech.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                3,200 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+                Events monthly
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count">You're a member</span>
+            <button class="btn-join-network joined" aria-label="You have joined Lean In Bay Area">Joined</button>
+          </div>
+        </div>
+
+        <div class="network-card" data-type="network" data-name="product leaders network industry pm" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Product Leaders Network</h3>
+            <p class="network-description">For women in product management, from APMs to CPOs. Discussions on roadmapping, stakeholder alignment, and the path to the C-suite.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                8,700 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+                Virtual
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count">You're a member</span>
+            <button class="btn-join-network joined" aria-label="You have joined Product Leaders Network">Joined</button>
+          </div>
+        </div>
+
+        <div class="network-card" data-type="network" data-name="lean in new york nyc city" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Lean In New York</h3>
+            <p class="network-description">NYC's home for ambitious women across finance, media, fashion, tech, and beyond. One of the largest Lean In Networks in the world.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                11,400 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+                Events bi-weekly
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count"> </span>
+            <button class="btn-join-network" aria-label="Join Lean In New York">Join Network</button>
+          </div>
+        </div>
+
+        <div class="network-card" data-type="network" data-name="women in engineering software industry" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Women in Engineering</h3>
+            <p class="network-description">Software, hardware, data — all engineers welcome. From IC paths to technical leadership, this is where you find your people in the industry.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                14,200 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+                Virtual
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count"> </span>
+            <button class="btn-join-network" aria-label="Join Women in Engineering network">Join Network</button>
+          </div>
+        </div>
+
+        <div class="network-card" data-type="network" data-name="lean in global international worldwide" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Lean In Global</h3>
+            <p class="network-description">The worldwide community — open to any Lean In member across all 184 countries. Global events, cross-cultural perspectives, and shared resources.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                220,000 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+                Virtual
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count"> </span>
+            <button class="btn-join-network" aria-label="Join Lean In Global">Join Network</button>
+          </div>
+        </div>
+
+        <div class="network-card" data-type="network" data-name="lean in chicago midwest city" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Lean In Chicago</h3>
+            <p class="network-description">Chicago's network for women across finance, healthcare, design, and tech. Monthly panels, mentorship pairings, and a serious community of leaders.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                5,100 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+                Events monthly
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count"> </span>
+            <button class="btn-join-network" aria-label="Join Lean In Chicago">Join Network</button>
+          </div>
+        </div>
+
+        <div class="network-card" data-type="network" data-name="women in healthcare medicine clinical" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Women in Healthcare</h3>
+            <p class="network-description">Clinicians, administrators, researchers, and health-tech founders. Navigating a demanding industry while building careers that last.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                5,100 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+                Virtual
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count"> </span>
+            <button class="btn-join-network" aria-label="Join Women in Healthcare">Join Network</button>
+          </div>
+        </div>
+
+        <div class="network-card" data-type="network" data-name="women of color leadership diversity global" role="listitem">
+          <div class="network-card-body">
+            <span class="type-pill">Network</span>
+            <h3>Women of Color in Leadership</h3>
+            <p class="network-description">A global community for women of color navigating leadership — from micro-aggressions in the boardroom to building the next generation of diverse leadership pipelines.</p>
+            <div class="network-meta">
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+                18,300 members
+              </div>
+              <div class="network-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+                Virtual
+              </div>
+            </div>
+          </div>
+          <div class="network-card-footer">
+            <span class="network-member-count"> </span>
+            <button class="btn-join-network" aria-label="Join Women of Color in Leadership">Join Network</button>
+          </div>
+        </div>
+
+        <!-- ───── Group Cards (3) ───── -->
+
+        <div class="group-card" data-type="group" data-name="early career job seekers job search entry level" role="listitem">
+          <div class="group-card-top">
+            <span class="type-pill">Group</span>
+          </div>
+          <h3>Early Career Job Seekers</h3>
+          <p class="group-description">For women navigating their first job search — from writing cold emails to decoding offer letters. Resume feedback, referral swaps, and solidarity.</p>
+          <div class="group-meta">
+            <div class="group-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              2,100 members
+            </div>
+            <div class="group-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+              Open to join
+            </div>
+          </div>
+          <div class="group-card-footer">
+            <button class="btn-join-group" aria-label="Join Early Career Job Seekers">Join Group</button>
+          </div>
+        </div>
+
+        <div class="group-card" data-type="group" data-name="women in design ux product visual creative" role="listitem">
+          <div class="group-card-top">
+            <span class="type-pill">Group</span>
+          </div>
+          <h3>Women in Design</h3>
+          <p class="group-description">UX, product, and visual designers sharing work, giving feedback, and navigating the creative industry. Portfolio crits, tool talk, and career advice welcome.</p>
+          <div class="group-meta">
+            <div class="group-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              4,800 members
+            </div>
+            <div class="group-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+              Open to join
+            </div>
+          </div>
+          <div class="group-card-footer">
+            <button class="btn-join-group" aria-label="Join Women in Design">Join Group</button>
+          </div>
+        </div>
+
+        <div class="group-card" data-type="group" data-name="salary negotiation tips pay raise compensation" role="listitem">
+          <div class="group-card-top">
+            <span class="type-pill">Group</span>
+          </div>
+          <h3>Salary Negotiation Tips</h3>
+          <p class="group-description">Scripts, strategies, and real stories from women who negotiated — and won. Ask questions, share offers (anonymously if you like), and get coached by the community.</p>
+          <div class="group-meta">
+            <div class="group-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
+              6,200 members
+            </div>
+            <div class="group-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"/></svg>
+              Open to join
+            </div>
+          </div>
+          <div class="group-card-footer">
+            <button class="btn-join-group" aria-label="Join Salary Negotiation Tips">Join Group</button>
+          </div>
+        </div>
+
+        <div class="no-results" id="no-results" role="status" aria-live="polite">
+          <p>No communities match that search. Try a different term or filter.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════════════════════ MY COMMUNITIES TAB ════════════════════ -->
+    <div id="tab-my-communities" class="my-communities">
+
+      <!-- My Circles -->
+      <div class="my-section">
+        <h2 class="my-section-heading">My Circles</h2>
+        <div class="my-cards" role="list">
+          <div class="my-card" role="listitem">
+            <div class="my-card-type">Circle</div>
+            <div class="my-card-name">SF Women in Tech</div>
+            <div class="my-card-meta">9 members · Bi-weekly · San Francisco</div>
+            <div class="my-card-footer">
+              <button class="btn-view">View Circle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Networks -->
+      <div class="my-section">
+        <h2 class="my-section-heading">My Networks</h2>
+        <div class="my-cards" role="list">
+          <div class="my-card" role="listitem">
+            <div class="my-card-type">Network</div>
+            <div class="my-card-name">Lean In Bay Area</div>
+            <div class="my-card-meta">3,200 members · Events monthly · San Francisco</div>
+            <div class="my-card-footer">
+              <button class="btn-view">View Network</button>
+            </div>
+          </div>
+          <div class="my-card" role="listitem">
+            <div class="my-card-type">Network</div>
+            <div class="my-card-name">Product Leaders Network</div>
+            <div class="my-card-meta">8,700 members · Virtual</div>
+            <div class="my-card-footer">
+              <button class="btn-view">View Network</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Groups -->
+      <div class="my-section">
+        <h2 class="my-section-heading">My Groups</h2>
+        <div class="my-cards" role="list">
+          <div class="my-card" role="listitem">
+            <div class="my-card-type">Group</div>
+            <div class="my-card-name">Salary Negotiation Tips</div>
+            <div class="my-card-meta">6,200 members · Open group</div>
+            <div class="my-card-footer">
+              <button class="btn-view">View Group</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-logo">Lean In</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="explore.html">Explore</a>
+    <a href="resources.html">Resources</a>
+    <a href="rationale.html">Design Notes</a>
+  </div>
+  <p>© 2025 Lean In · Prototype redesign concept</p>
+</footer>
+
+<script>
+  // ── Main tab switching ──
+  const exploreTabs = document.querySelectorAll('.explore-tab');
+  const discoverPanel = document.getElementById('tab-discover');
+  const myPanel = document.getElementById('tab-my-communities');
+
+  exploreTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      exploreTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      if (tab.dataset.tab === 'discover') {
+        discoverPanel.style.display = '';
+        myPanel.classList.remove('active');
+      } else {
+        discoverPanel.style.display = 'none';
+        myPanel.classList.add('active');
+      }
+    });
+  });
+
+  // ── Sub-filter chips + search ──
+  const subChips = document.querySelectorAll('.sub-chip');
+  const allCards = document.querySelectorAll('#explore-grid [data-type]');
+  const countEl = document.getElementById('explore-count');
+  const noResults = document.getElementById('no-results');
+  const searchInput = document.getElementById('explore-search-input');
+
+  function applyFilters() {
+    const activeFilter = document.querySelector('.sub-chip.active').dataset.filter;
+    const term = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+    allCards.forEach(card => {
+      const typeMatch = activeFilter === 'all' || card.dataset.type === activeFilter;
+      const textMatch = !term ||
+        card.dataset.name.includes(term) ||
+        card.querySelector('h3').textContent.toLowerCase().includes(term);
+      const show = typeMatch && textMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+    countEl.textContent = visible;
+  }
+
+  subChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      subChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      applyFilters();
+    });
+  });
+  searchInput.addEventListener('input', applyFilters);
+
+  // ── Circle join toggle ──
+  document.querySelectorAll('.btn-join').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pending = btn.classList.toggle('pending');
+      btn.textContent = pending ? 'Request Sent' : 'Request to Join';
+    });
+  });
+
+  // ── Network join toggle ──
+  document.querySelectorAll('.btn-join-network').forEach(btn => {
+    if (btn.classList.contains('joined')) return;
+    btn.addEventListener('click', () => {
+      const joined = btn.classList.toggle('joined');
+      btn.textContent = joined ? 'Joined' : 'Join Network';
+    });
+  });
+
+  // ── Group join toggle ──
+  document.querySelectorAll('.btn-join-group').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const joined = btn.classList.toggle('joined');
+      btn.textContent = joined ? 'Joined' : 'Join Group';
+    });
+  });
+</script>
+
+</body>
+</html>
