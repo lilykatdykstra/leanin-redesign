@@ -191,6 +191,23 @@ p { color: var(--gray); line-height: 1.7; }
 .nav-search input::placeholder { color: rgba(26,26,26,0.4); }
 .nav-search svg { width: 15px; height: 15px; flex-shrink: 0; }
 
+.nav-process-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6B6B6B;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.nav-process-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+.nav-process-link:hover { color: #1A1A1A; background: rgba(0,0,0,0.04); }
+.nav-process-link.active { color: #C41E3A; }
+
 .nav-icon-btn {
   width: 36px; height: 36px;
   border-radius: 50%;

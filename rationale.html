@@ -3,120 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Rationale — Lean In Connect Redesign</title>
+  <title>Design Rationale — Lean In Connect</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .toc {
-      background: var(--color-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 28px;
-      margin-bottom: 48px;
-      position: sticky;
-      top: calc(var(--nav-h) + 16px);
-      max-width: 240px;
-      float: right;
-      margin-left: 40px;
-      clear: right;
+    .rat-hero {
+      background: #FDF6F0;
+      border-bottom: 1px solid #E8E4E0;
+      padding: 72px 24px 56px;
+      text-align: center;
     }
-    .toc h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); margin-bottom: 12px; font-family: var(--font-sans); }
-    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-    .toc-list a { font-size: 13px; color: var(--gray); text-decoration: none; transition: color 0.15s; padding: 2px 0; display: block; }
-    .toc-list a:hover { color: var(--red); }
-    .toc-list a.active { color: var(--red); font-weight: 600; }
-
-    .before-after {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin: 24px 0;
-    }
-    .ba-card {
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .ba-label {
-      padding: 8px 14px;
-      font-size: 12px;
-      font-weight: 600;
+    .rat-eyebrow {
+      display: inline-block;
+      background: #FDEAEA;
+      color: #C41E3A;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
     }
-    .ba-label.before { background: #F5F5F5; color: var(--gray); }
-    .ba-label.after { background: var(--red-light); color: var(--red); }
-    .ba-content {
-      padding: 14px;
-      background: var(--color-card);
-      font-size: 13px;
-      color: var(--gray);
-      line-height: 1.6;
+    .rat-hero h1 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #1A1A1A;
+      line-height: 1.2;
+      margin-bottom: 14px;
     }
-
-    .decision-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin: 24px 0;
-    }
-    .decision-table th {
-      background: var(--bg);
-      color: var(--gray);
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .decision-table td {
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
+    .rat-subtitle {
       font-size: 14px;
-      color: var(--text);
-      background: var(--color-card);
-      vertical-align: top;
-      line-height: 1.6;
+      color: #6B6B6B;
+      margin: 0;
     }
-    .decision-table td:first-child { color: var(--gray); font-weight: 500; }
-    .decision-table tr:last-child td { border-bottom: none; }
 
-    .accessibility-check {
+    .rat-section {
+      padding: 64px 24px;
+    }
+    .rat-section.cream { background: #F5F0EB; }
+    .rat-section.white { background: #FFFFFF; }
+
+    .rat-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .rat-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #C41E3A;
+      margin-bottom: 10px;
+    }
+    .rat-section-title {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+    .rat-body {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #3A3A3A;
+    }
+    .rat-body p { margin-bottom: 18px; color: #3A3A3A; }
+    .rat-body p:last-child { margin-bottom: 0; }
+
+    .rat-body ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px 0;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin: 20px 0;
+      gap: 14px;
     }
-    .a11y-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 14px 16px;
-      background: var(--color-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
+    .rat-body ul li {
+      padding-left: 22px;
+      position: relative;
+      line-height: 1.7;
+      color: #3A3A3A;
     }
-    .a11y-check {
-      width: 24px; height: 24px;
+    .rat-body ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: #E8FFF6;
-      color: #169C5A;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      font-size: 14px;
-      font-weight: 700;
+      background: #C41E3A;
     }
-    .a11y-text { flex: 1; }
-    .a11y-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
-    .a11y-text span { font-size: 13px; color: var(--gray); }
 
-    @media (max-width: 768px) {
-      .toc { float: none; max-width: none; position: static; margin-left: 0; }
-      .before-after { grid-template-columns: 1fr; }
+    .rat-decision {
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid #E8E4E0;
+    }
+    .rat-decision:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .rat-decision-title {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 12px;
     }
   </style>
 </head>
@@ -144,6 +142,10 @@
   </nav>
 
   <div class="nav-right">
+    <a href="rationale.html" class="nav-process-link active" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Process
+    </a>
     <button class="nav-icon-btn" aria-label="Search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </button>
@@ -160,373 +162,102 @@
 <div class="page-body">
 
   <!-- Hero -->
-  <div class="rationale-hero" role="banner">
-    <div class="container">
-      <div class="hero-tag" style="background:rgba(196,30,58,0.2); color:#FF8A85; display:inline-block; padding:5px 14px; border-radius:100px; font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px;">Design Process</div>
-      <h1>Design Rationale &<br>Process Notes</h1>
-      <p>A behind-the-scenes look at the decisions behind this redesign concept — what we changed, why, and what tradeoffs we considered.</p>
-    </div>
+  <div class="rat-hero">
+    <div class="rat-eyebrow">Case Study</div>
+    <h1>Design Rationale &amp; Process</h1>
+    <p class="rat-subtitle">Lean In Connect Redesign &nbsp;·&nbsp; Lily Dykstra &nbsp;·&nbsp; July 2026</p>
   </div>
 
-  <div class="rationale-content">
-
-    <!-- Table of Contents (floated right, stays in flow) -->
-    <nav class="toc" aria-label="Page contents">
-      <h4>Contents</h4>
-      <ul class="toc-list">
-        <li><a href="#vision">Design Vision</a></li>
-        <li><a href="#colors">Color System</a></li>
-        <li><a href="#typography">Typography</a></li>
-        <li><a href="#layout">Layout & Navigation</a></li>
-        <li><a href="#feed">Feed Design</a></li>
-        <li><a href="#information-architecture">Information Architecture</a></li>
-        <li><a href="#accessibility">Accessibility</a></li>
-        <li><a href="#tradeoffs">Tradeoffs & Open Questions</a></li>
-      </ul>
-    </nav>
-
-    <!-- 1. Vision -->
-    <section class="rationale-section" id="vision" aria-labelledby="vision-heading">
-      <div class="rationale-num" aria-hidden="true">01</div>
-      <h2 class="rationale-heading" id="vision-heading">Design Vision</h2>
-
-      <div class="rationale-body">
-        <p>The current Lean In Connect platform feels functional but dated — closer in spirit to early Facebook groups than to where social platforms have evolved. The redesign aims for something specific: <strong>warm, modern, and mission-forward</strong>.</p>
-
-        <p>"Warm" means the platform feels human rather than algorithmic. It should feel like you're stepping into a supportive community, not a content feed optimized for engagement. That influences everything from the off-white background (#FAF8F5 instead of pure white) to the serif display font, to the way posts are written and displayed.</p>
-
-        <p>"Modern" means the UX patterns are familiar enough that a LinkedIn or Twitter user can orient themselves immediately. Three-column layout, persistent navigation, inline interactions — these aren't novel, but they're proven, and novelty is not the goal here.</p>
-
-        <p>"Mission-forward" means Lean In's actual purpose — women supporting each other's ambitions — is legible in the design itself. The feed shows real stories. The sidebar immediately tells you what communities you belong to. The brand red is present but never aggressive.</p>
+  <!-- Overview -->
+  <section class="rat-section white">
+    <div class="rat-inner">
+      <div class="rat-section-label">Overview</div>
+      <h2 class="rat-section-title">The brief and where I started</h2>
+      <div class="rat-body">
+        <p>This prototype is a redesign of Lean In Connect, the community platform at connect.leanin.org. I was given the brief: find something worth improving and build it. I started by actually using the platform as a new user, and that experience greatly informed everything that followed.</p>
       </div>
+    </div>
+  </section>
 
-      <div class="quote-block" role="blockquote">
-        <p>"Design that forgets its purpose is just decoration. Every decision here should serve the question: does this help a woman feel seen, supported, and equipped to grow?"</p>
-        <div class="quote-attribution">— Design brief north star</div>
+  <!-- The Audit -->
+  <section class="rat-section cream">
+    <div class="rat-inner">
+      <div class="rat-section-label">The Audit</div>
+      <h2 class="rat-section-title">What I found when I actually used it</h2>
+      <div class="rat-body">
+        <p>My first session on Connect left me genuinely confused. Not in a "this is broken" way, but in a "I don't know where I am or what I'm supposed to do here" way, which is often worse from a design and user experience perspective, because there's nothing obvious to fix.</p>
+        <p>A few specific things stood out:</p>
+        <ul>
+          <li>The search bar sat in an awkward position that felt disconnected from the rest of the layout. It read as a navigational element placed inside content space, which broke the visual logic of the page.</li>
+          <li>The "Share something with the community" prompt felt passive and unclear. On a platform where posting is a primary action, burying it in a text input rather than a clear "Create a post" button undersells the action and makes the interface feel like a social media afterthought rather than a purposeful community tool.</li>
+          <li>The feed was overwhelming. Everything was presented at the same visual weight with no way to filter by what actually mattered to me — my Circle, my Network, or things I'd saved. There was content from people I didn't know, in communities I wasn't part of, with no hierarchy. It felt like opening Twitter for the first time with no follows.</li>
+          <li>Most importantly: I had no idea what a Circle was versus a Network versus a Group. The platform assumed I already knew. There was no onboarding, no explanation, and no clear path to figuring it out. For a platform built on the idea that women should feel supported and welcomed, the new user experience felt surprisingly cold.</li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 2. Colors -->
-    <section class="rationale-section" id="colors" aria-labelledby="colors-heading">
-      <div class="rationale-num" aria-hidden="true">02</div>
-      <h2 class="rationale-heading" id="colors-heading">Color System</h2>
+  <!-- Design Decisions -->
+  <section class="rat-section white">
+    <div class="rat-inner">
+      <div class="rat-section-label">Design Decisions</div>
+      <h2 class="rat-section-title">What I changed and why</h2>
+      <div class="rat-body">
 
-      <div class="rationale-body">
-        <p>The palette is taken directly from Lean In's brand, but applied with more intentionality than the current platform uses.</p>
-      </div>
-
-      <div class="color-swatch-row" role="list" aria-label="Color palette">
-        <div class="color-swatch" role="listitem">
-          <div class="swatch-box" style="background:#C41E3A;"></div>
-          <span class="swatch-name">Primary Red</span>
-          <span class="swatch-hex">#C41E3A</span>
+        <div class="rat-decision">
+          <div class="rat-decision-title">Feed filters: All / My Circles / My Networks / Saved</div>
+          <p>I love a good filter system. The original platform had some version of this but it wasn't emphasized or visually prominent enough — it was easy to miss entirely. The redesign puts the filter tabs front and center above the feed, making it the first decision a user makes when they arrive. This directly solves the overwhelm problem: instead of showing everything to everyone, the default is still "All" but the path to narrowing is immediately visible and easy. The four tabs map directly to the ways a user actually relates to content on this platform: their small group, their larger community, and things they've intentionally saved.</p>
         </div>
-        <div class="color-swatch" role="listitem">
-          <div class="swatch-box" style="background:#FAF8F5; border-color:var(--border-mid);"></div>
-          <span class="swatch-name">Background</span>
-          <span class="swatch-hex">#FAF8F5</span>
+
+        <div class="rat-decision">
+          <div class="rat-decision-title">Merging Circles, Networks, and Groups into one Explore page</div>
+          <p>Keeping these as three separate nav items would have created exactly the cognitive overload I experienced as a new user. Three different words, three different pages, three different explanations. It's too much before someone has even joined anything. Bringing them together under "Communities" with a single Explore page and a sub-filter (All / Circles / Networks / Groups) lets users see the full landscape at once, compare them, and make a choice. The nav item named "Communities" is also more intuitive than any of the three individual terms for someone who doesn't yet know the difference.</p>
         </div>
-        <div class="color-swatch" role="listitem">
-          <div class="swatch-box" style="background:#1A1A1A;"></div>
-          <span class="swatch-name">Dark Text</span>
-          <span class="swatch-hex">#1A1A1A</span>
+
+        <div class="rat-decision">
+          <div class="rat-decision-title">The "Understanding our communities" explainer section</div>
+          <p>This came directly from my own experience: I signed up and genuinely didn't know which one to join or why. I wasn't sure if I needed all three or just one. I didn't know if a Circle was better than a Network or vice versa. That uncertainty is a real abandonment risk: if someone doesn't know what they're joining, they won't join anything. Adding a simple, friendly explanation at the bottom of the Explore page — not as a separate page, not hidden in an FAQ — means the information is available exactly when someone needs it, without interrupting the browsing experience. It also signals something culturally important: not knowing everything is okay here. You're welcome even if you're figuring it out.</p>
         </div>
-        <div class="color-swatch" role="listitem">
-          <div class="swatch-box" style="background:#FFFFFF; border-color:var(--border-mid);"></div>
-          <span class="swatch-name">Card White</span>
-          <span class="swatch-hex">#FFFFFF</span>
+
+        <div class="rat-decision">
+          <div class="rat-decision-title">Color palette: warm cream, deep red, blush accents</div>
+          <p>The warm cream background (#F5F0EB) was a deliberate choice over pure white. White is clinical and flat, whereas cream is warmer, easier on the eyes over extended sessions, and feels more like a space you'd want to spend time in. It also gives the red accents more room to breathe without feeling harsh.</p>
+          <p>The red itself was a considered decision. I wanted to embrace Lean In's existing brand identity — red is theirs, it's bold, it's confident — but push it slightly warmer and deeper (#C41E3A) so it reads as sophisticated rather than alarming. I didn't want to soften the palette into pastels or neutrals, because that felt like doing the thing the platform exists to push back against: dimming women's voices to make them more palatable. I wanted bright, warm, and unapologetically feminine without being overwhelming. Pinks and reds and blushes are welcome here.</p>
         </div>
-        <div class="color-swatch" role="listitem">
-          <div class="swatch-box" style="background:#6B6B6B;"></div>
-          <span class="swatch-name">Muted Gray</span>
-          <span class="swatch-hex">#6B6B6B</span>
+
+        <div class="rat-decision">
+          <div class="rat-decision-title">Navigation structure</div>
+          <p>The original platform's navigation had too many top-level items competing for attention. The redesign consolidates to three: Home, Communities, Resources. Each has an icon above the label for quick visual scanning. Communities contains everything related to finding and joining groups. Resources is a single destination for articles, toolkits, and research. The result is a nav bar that a new user can understand in under two seconds.</p>
         </div>
-        <div class="color-swatch" role="listitem">
-          <div class="swatch-box" style="background:#E8E4E0;"></div>
-          <span class="swatch-name">Light Border</span>
-          <span class="swatch-hex">#E8E4E0</span>
-        </div>
-        <div class="color-swatch" role="listitem">
-          <div class="swatch-box" style="background:#FFF0EF;"></div>
-          <span class="swatch-name">Red Tint</span>
-          <span class="swatch-hex">#FFF0EF</span>
-        </div>
+
       </div>
+    </div>
+  </section>
 
-      <div class="rationale-body">
-        <p><strong>Background (#FAF8F5):</strong> The warm off-white is one of the most important decisions in the palette. Pure white (#FFFFFF) reads as clinical and corporate. The warm tint makes the interface feel inviting without being distracting — it's the difference between a hospital and a coffee shop.</p>
-
-        <p><strong>Cards as #FFFFFF on warm background:</strong> Using true white for cards against the warm background creates gentle contrast without harsh shadows. Cards "lift" subtly, keeping the visual hierarchy clear while maintaining warmth.</p>
-
-        <p><strong>Red (#C41E3A) used sparingly:</strong> The brand red is bold and energetic, but can feel aggressive at scale. In this design it appears primarily for interactive elements (active states, CTAs, post badges) and key UI moments — never as a background color for large areas.</p>
-
-        <p><strong>Supporting colors for community types:</strong> Circles use the brand red, Networks use purple (#7B4FD4), Groups use teal (#169C8A). This gives each community type a distinct visual identity without competing with the brand.</p>
+  <!-- What I'd Build Next -->
+  <section class="rat-section cream">
+    <div class="rat-inner">
+      <div class="rat-section-label">What I'd Build Next</div>
+      <h2 class="rat-section-title">If I had more time</h2>
+      <div class="rat-body">
+        <p>If I had more time, the thing I'd most want to build is an onboarding flow: a short, guided experience that walks a new member through the platform on their first login. What is a Circle? Here's how to find one. What's in your feed? Here's how to filter it. It could be as simple as a tooltip walkthrough or as rich as a short video, but the goal would be the same: make sure no one lands on Connect and feels as lost as I did. A well-designed onboarding flow would address almost every friction point I identified in the audit, and it would make every other part of the platform more usable by default.</p>
+        <p>I'd also invest more time in the profile completion experience. Right now filling out your bio and personal prompts feels disconnected from the rest of the platform. Tying profile completion to community discovery — "Tell us what you're working on and we'll suggest Circles" — would make the whole thing feel more purposeful.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 3. Typography -->
-    <section class="rationale-section" id="typography" aria-labelledby="type-heading">
-      <div class="rationale-num" aria-hidden="true">03</div>
-      <h2 class="rationale-heading" id="type-heading">Typography</h2>
-
-      <div class="rationale-body">
-        <p>The type pairing — Playfair Display for headings, Inter for body — is chosen for a specific effect: editorial warmth paired with digital legibility.</p>
+  <!-- Process & Tools -->
+  <section class="rat-section white">
+    <div class="rat-inner">
+      <div class="rat-section-label">Process &amp; Tools</div>
+      <h2 class="rat-section-title">How I built this</h2>
+      <div class="rat-body">
+        <p>I used Claude to work through the audit: taking my notes, observations, and questions about the platform and synthesizing them into a clear set of design problems worth solving. That process helped me move from "something feels off" to "here's specifically what and why" much faster than I could have done by staring at a blank doc.</p>
+        <p>I then used Claude Code and Cursor to build the prototype. I wrote detailed prompts describing what I wanted — layout, interactions, color, content — and iterated based on what came back. I adjusted prompts when things weren't right, directed decisions about color and structure, and made judgment calls throughout about what to keep, cut, or change. I could have written the HTML and CSS manually — and did make manual adjustments at points — but using AI tooling let me build something far more complete in three hours than would otherwise have been possible. I used these tools the same way I'd use any other design tool: to execute ideas faster so I could spend more time on the decisions that actually matter.</p>
       </div>
+    </div>
+  </section>
 
-      <div class="type-specimen" aria-label="Playfair Display typeface specimen">
-        <p style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray); margin-bottom:12px; font-weight:600;">Playfair Display — Headings</p>
-        <h1 style="margin-bottom:6px;">Your community,<br>your career.</h1>
-        <h2 style="margin-bottom:6px;">Women supporting women</h2>
-        <h3>Find your Circle today</h3>
-      </div>
-
-      <div class="type-specimen" aria-label="Inter typeface specimen">
-        <p style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray); margin-bottom:12px; font-weight:600;">Inter — Body & UI</p>
-        <p style="color:var(--text); font-size:15px; line-height:1.7; margin-bottom:10px;">Body copy at 15px / 1.7 line-height. Designed for long-form reading comfort on screen.</p>
-        <p style="color:var(--gray); font-size:13px;">UI labels, captions, and metadata at 13px.</p>
-        <p style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray); margin-top:10px;">Section Labels at 11px / 600 weight</p>
-      </div>
-
-      <div class="rationale-body">
-        <p><strong>Why Playfair Display:</strong> Lean In exists at the intersection of authority and warmth — it's a serious organization doing serious work, but the movement is built on human connection. A modern serif conveys both: the authority of a respected publication, with the warmth of something hand-crafted. Playfair's high contrast letterforms work especially well at display sizes.</p>
-
-        <p><strong>Why Inter for body:</strong> Inter was designed specifically for screen legibility, with open apertures and wide spacing that holds up at small sizes. It's neutral enough to let the content lead, but has just enough personality to feel considered.</p>
-
-        <p><strong>Scale and spacing:</strong> Text size ranges from 11px (labels) to 2.75rem (hero headings), with a deliberate minimum of 13px for anything users need to read. Line height is generous — 1.7 for body text — because dense text slows reading on community platforms where people often skim.</p>
-      </div>
-    </section>
-
-    <!-- 4. Layout -->
-    <section class="rationale-section" id="layout" aria-labelledby="layout-heading">
-      <div class="rationale-num" aria-hidden="true">04</div>
-      <h2 class="rationale-heading" id="layout-heading">Layout & Navigation</h2>
-
-      <div class="rationale-body">
-        <p>The three-column layout (profile sidebar / feed / contextual sidebar) is the standard for social platforms for a reason: it separates personal context (left), stream content (center), and ambient information (right) without requiring navigation.</p>
-
-        <p>The nav deliberately mirrors LinkedIn's structure — icon + label nav items, search in the bar, avatar on the right — because users arrive with existing mental models. Fighting those models wastes the user's cognitive budget. Using them means users can focus on the content instead of the chrome.</p>
-      </div>
-
-      <div class="before-after" role="group" aria-label="Layout comparison: before and after">
-        <div class="ba-card">
-          <div class="ba-label before">Current platform</div>
-          <div class="ba-content">
-            Forum-style layout with navigation in a top bar and content in a single column. Community membership buried in a side panel that many users don't notice. Hard to tell at a glance which community a post belongs to.
-          </div>
-        </div>
-        <div class="ba-card">
-          <div class="ba-label after">This redesign</div>
-          <div class="ba-content">
-            Three-column layout with profile and community membership always visible in the left sidebar. Post badges clearly identify Circles vs. Networks. Right sidebar surfaces upcoming meetings and people — the things you need but might not seek out.
-          </div>
-        </div>
-      </div>
-
-      <div class="rationale-body">
-        <p><strong>Left sidebar as identity anchor:</strong> One of the most important functions of the left sidebar is reminding users who they are in this community — their name, their Circle, their Network. Research on community platforms consistently shows that belonging cues (being reminded of your membership) increase participation. Showing this on every page load is a design decision, not just a layout choice.</p>
-
-        <p><strong>Sticky sidebars:</strong> Both sidebars are sticky on scroll, keeping community context and upcoming meetings visible while browsing. This mirrors the way LinkedIn keeps your profile stats visible — it turns ambient awareness into intentional presence.</p>
-      </div>
-    </section>
-
-    <!-- 5. Feed -->
-    <section class="rationale-section" id="feed" aria-labelledby="feed-heading">
-      <div class="rationale-num" aria-hidden="true">05</div>
-      <h2 class="rationale-heading" id="feed-heading">Feed Design</h2>
-
-      <div class="rationale-body">
-        <p>The feed is the heart of the platform, and the place where the most design tension lives: how do you create an engaging, scrollable experience without becoming an engagement-optimization machine?</p>
-      </div>
-
-      <table class="decision-table" role="table" aria-label="Feed design decisions">
-        <thead>
-          <tr>
-            <th>Decision</th>
-            <th>Approach</th>
-            <th>Rationale</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Post badges</td>
-            <td>Color-coded Circle vs. Network badges on every post</td>
-            <td>Users scan feeds quickly. Badges let you filter by community type at a glance without reading the post metadata carefully.</td>
-          </tr>
-          <tr>
-            <td>Feed filters</td>
-            <td>Tab bar: All / My Circles / My Networks / Saved</td>
-            <td>Gives users agency over information density without requiring a separate page. Saved allows lightweight bookmarking within the feed flow.</td>
-          </tr>
-          <tr>
-            <td>Post length</td>
-            <td>Unconstrained, long-form posts visible in full</td>
-            <td>Lean In's content is substantive and personal. Truncating posts encourages low-effort posting. Showing full posts respects the content and the community.</td>
-          </tr>
-          <tr>
-            <td>Reactions</td>
-            <td>"Celebrate" as primary action (vs "Like")</td>
-            <td>Lean In content is often personal wins and vulnerable shares. "Celebrate" is more appropriate than "Like" and reinforces the platform's unique emotional tone.</td>
-          </tr>
-          <tr>
-            <td>Composer</td>
-            <td>Pill-shaped input bar with quick-add actions below</td>
-            <td>The pill shape and placeholder text ("Share something with your communities") invites personal sharing rather than professional broadcasting.</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 6. Information Architecture -->
-    <section class="rationale-section" id="information-architecture" aria-labelledby="ia-heading">
-      <div class="rationale-num" aria-hidden="true">06</div>
-      <h2 class="rationale-heading" id="ia-heading">Information Architecture</h2>
-
-      <div class="rationale-body">
-        <p>One of the primary usability problems on the current platform is that users don't understand the difference between Circles, Networks, and Groups. These aren't just different words — they represent meaningfully different types of relationships and commitments. The current platform doesn't explain this clearly.</p>
-
-        <p>This redesign addresses the problem at two levels:</p>
-
-        <p><strong>Level 1 — Persistent visual encoding:</strong> Every post and community reference is color-coded (red = Circle, purple = Network, teal = Group). Users learn the system through exposure, not instruction.</p>
-
-        <p><strong>Level 2 — Dedicated explainer page:</strong> The explainer.html page provides explicit education for new users — including a comparison table, visual metaphors (the concentric rings diagram), and a clear "how to get started" flow. This page is linked from the nav (as "Circles" in the navigation) so new users can find it.</p>
-      </div>
-
-      <div class="principle-card">
-        <div class="principle-num" aria-hidden="true">IA</div>
-        <div class="principle-text">
-          <h4>The hierarchy: Circle ⊂ Network ⊂ Platform</h4>
-          <p>Circles are nested inside Networks — you find your Circle through your Network. Groups cross-cut both. Representing this spatial relationship visually (the concentric diagram) makes the hierarchy intuitive rather than something users have to memorize.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. Accessibility -->
-    <section class="rationale-section" id="accessibility" aria-labelledby="a11y-heading">
-      <div class="rationale-num" aria-hidden="true">07</div>
-      <h2 class="rationale-heading" id="a11y-heading">Accessibility</h2>
-
-      <div class="rationale-body">
-        <p>Accessibility isn't a checklist item here — it's a core value of a platform whose mission is inclusion. The following features are implemented throughout the prototype:</p>
-      </div>
-
-      <div class="accessibility-check" role="list" aria-label="Accessibility features">
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>Semantic HTML throughout</strong>
-            <span>All pages use <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;footer&gt;</code> — not just div soup. Headings are hierarchically correct (h1 → h2 → h3).</span>
-          </div>
-        </div>
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>ARIA labels on interactive elements</strong>
-            <span>Every button and link has a descriptive aria-label where the visible label isn't sufficient (e.g. icon-only buttons, avatar images, notification badges).</span>
-          </div>
-        </div>
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>Tab filtering with ARIA roles</strong>
-            <span>Feed tabs use <code>role="tablist"</code> and <code>role="tab"</code> with <code>aria-selected</code> updated on click. Screen readers announce the active filter correctly.</span>
-          </div>
-        </div>
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>Focus styles always visible</strong>
-            <span>A 2px red outline appears on all focusable elements when navigating by keyboard — never hidden by <code>outline: none</code>.</span>
-          </div>
-        </div>
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>Color contrast ratios</strong>
-            <span>Text on white: #1A1A1A passes AA at all sizes. Muted gray (#6B6B6B) on white passes AA at body sizes. Red (#C41E3A) on white fails AA for small text — it is only used at large sizes or with additional visual weight.</span>
-          </div>
-        </div>
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>aria-live regions for dynamic content</strong>
-            <span>When the feed is filtered or resources are searched, count updates are wrapped in <code>aria-live="polite"</code> so screen reader users hear the result count update without being interrupted.</span>
-          </div>
-        </div>
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>Decorative images marked aria-hidden</strong>
-            <span>SVG icons, gradient backgrounds, and decorative illustrations are marked <code>aria-hidden="true"</code> so screen readers skip them.</span>
-          </div>
-        </div>
-        <div class="a11y-item" role="listitem">
-          <div class="a11y-check" aria-hidden="true">✓</div>
-          <div class="a11y-text">
-            <strong>Responsive design to 320px</strong>
-            <span>The layout responds at 1080px (hides right sidebar), 768px (hides left sidebar, collapses nav), and 480px (single-column resource grid). Minimum font size is 11px.</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8. Tradeoffs -->
-    <section class="rationale-section" id="tradeoffs" aria-labelledby="tradeoffs-heading">
-      <div class="rationale-num" aria-hidden="true">08</div>
-      <h2 class="rationale-heading" id="tradeoffs-heading">Tradeoffs & Open Questions</h2>
-
-      <div class="rationale-body">
-        <p>Every design has unresolved tensions. Here's an honest account of what this prototype leaves open:</p>
-      </div>
-
-      <div class="principle-card">
-        <div class="principle-num" aria-hidden="true">?</div>
-        <div class="principle-text">
-          <h4>Feed algorithm vs. chronology</h4>
-          <p>This prototype shows a simple reverse-chronological feed. A real platform would need a ranking algorithm — but optimizing for engagement on a support community can surface drama over depth. How do you rank for <em>quality</em> of support rather than raw interaction? This needs product and community research to answer.</p>
-        </div>
-      </div>
-
-      <div class="principle-card">
-        <div class="principle-num" aria-hidden="true">?</div>
-        <div class="principle-text">
-          <h4>Privacy and vulnerability in a social feed</h4>
-          <p>Lean In users share deeply personal things in their Circles. Showing Circle posts in an open feed (even with filters) may inhibit the vulnerability that makes Circles powerful. The badge system helps, but whether posts should default to Circle-only visibility is an open product question.</p>
-        </div>
-      </div>
-
-      <div class="principle-card">
-        <div class="principle-num" aria-hidden="true">?</div>
-        <div class="principle-text">
-          <h4>Mobile-first vs. desktop-first</h4>
-          <p>This prototype is designed desktop-first with a responsive breakpoint. But community platforms increasingly live on mobile. A true redesign should include dedicated mobile wireframes — especially for the Circle meeting flow, which is likely accessed on the go.</p>
-        </div>
-      </div>
-
-      <div class="principle-card">
-        <div class="principle-num" aria-hidden="true">?</div>
-        <div class="principle-text">
-          <h4>Internationalization</h4>
-          <p>Lean In has 55,000+ Circles in 184 countries. This prototype is English-only with a US-centric date format. Internationalization — especially RTL language support — would change some layout assumptions meaningfully.</p>
-        </div>
-      </div>
-
-      <div class="quote-block" role="blockquote" style="margin-top:40px;">
-        <p>"A prototype is a question, not an answer. The best thing this design can do is clarify which questions matter most."</p>
-        <div class="quote-attribution">— Design principle</div>
-      </div>
-
-      <div style="margin-top: 48px; text-align: center;">
-        <p style="margin-bottom: 20px; font-size:15px;">Explore the prototype:</p>
-        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-          <a href="index.html" class="btn-sm btn-primary btn-lg">Home Feed</a>
-          <a href="explainer.html" class="btn-sm btn-outline btn-lg">Circles Explainer</a>
-          <a href="resources.html" class="btn-sm btn-ghost btn-lg">Resource Library</a>
-        </div>
-      </div>
-
-    </section>
-
-  </div><!-- /rationale-content -->
 </div>
 
 <!-- Footer -->
@@ -538,27 +269,11 @@
     <a href="index.html" class="footer-link">Home</a>
     <a href="explore.html" class="footer-link">Communities</a>
     <a href="resources.html" class="footer-link">Resources</a>
+    <a href="rationale.html" class="footer-link">Process</a>
   </nav>
   <p class="footer-copy">© 2026 LeanIn.Org</p>
 </footer>
 
-<script>
-  // Highlight active ToC link on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const tocLinks = document.querySelectorAll('.toc-list a');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        tocLinks.forEach(link => link.classList.remove('active'));
-        const active = document.querySelector(`.toc-list a[href="#${entry.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-
-  sections.forEach(s => observer.observe(s));
-</script>
 <script src="nav-popups.js"></script>
 
 </body>
