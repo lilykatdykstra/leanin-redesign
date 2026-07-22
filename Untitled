@@ -1,0 +1,8 @@
+Fix the footer in every HTML file to match the nav bar styling:
+
+Set the footer background to the same color as the nav bar (#FFFFFF or whatever the current nav background is)
+Add a top border to the footer matching the nav's bottom border: border-top: 1px solid #E8E4E0
+Add the Lean In logo to the footer left side: <a href="index.html"><img src="logo-lean-in.png" alt="Lean In" style="height: 32px; width: auto;"></a>
+Replace whatever footer links currently exist with the same three nav links: Home (href="index.html"), Communities (href="explore.html"), Resources (href="resources.html")
+Add copyright text on the right side: "© 2026 LeanIn.Org" in muted gray #6B6B6B, small font size 13px
+Make the footer layout match the nav: flexbox, items centered vertically, logo on the left, links in the center, copyright on the right, same height and padding as the nav (64px height, 24px left/right padding)
