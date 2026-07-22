@@ -1621,6 +1621,18 @@ a.rc-title:hover { color: var(--red); }
   .concept-block.reverse { direction: ltr; }
 
   .page-hero h1 { font-size: 1.75rem; }
+
+  .post-header { padding: 20px 20px 0; }
+  .post-body { padding: 16px 20px 20px; }
+
+  .post-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    white-space: nowrap;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 @media (max-width: 480px) {
