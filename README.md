@@ -1,44 +1,34 @@
 # Lean In Connect — Redesign Prototype
 
-## Overview
+A working front-end prototype redesigning key experiences on Lean In's community platform, Connect.LeanIn.org.
 
-A high-fidelity static prototype redesigning the core Lean In community product — the screens where women find Circles, Networks, Groups, and resources. Built to test a warmer visual identity and cleaner information architecture before any engineering work begins.
+**Live site:** https://lilykatdykstra.github.io/leanin-redesign
+
+**GitHub:** https://github.com/lilykatdykstra/leanin-redesign
 
 ## Pages
-
-| File | Description |
-|------|-------------|
-| `index.html` | Home feed — posts, suggested circles, upcoming events, right-rail widgets |
-| `explore.html` | Unified community browser — discover and filter Circles, Networks, and Groups in one view; includes a "My Communities" tab |
-| `resources.html` | Resource library with search bar and category filters (Leadership, Career Growth, Research, Toolkits) |
-| `explainer.html` | Plain-language explainer for what Circles, Networks, and Groups are, with CTAs linking to explore.html |
-| `rationale.html` | Design rationale and decision log with before/after comparisons |
-| `circles.html` | Legacy Circles browse page (superseded by explore.html) |
-| `networks.html` | Legacy Networks browse page (superseded by explore.html) |
+- `index.html` — Redesigned home feed with post composer, feed filters, sidebar communities, right panel with upcoming Circle meeting and suggested connections
+- `explore.html` — Unified Communities page merging Circles, Networks, and Groups with Discover and My Communities tabs, plus an explainer section at the bottom
+- `resources.html` — Searchable resource library with category filters and article cards
+- `rationale.html` — Full design rationale, audit findings, and process notes
+- `style.css` — Shared styles across all pages
 
 ## Design Decisions
+- **Unified Communities page:** The original platform separates Circles, Networks, and Groups into different navigation items with no explanation of the differences. As a new user I found this genuinely confusing. Merging them into one Explore page with a clear explainer at the bottom reduces cognitive load and lowers abandonment from users who don't know what they're joining.
+- **Feed filters:** The original feed presents all content at equal weight with no way to narrow it. The All / My Circles / My Networks / Saved filter system puts the user in control of their feed immediately.
+- **Warm color palette:** Cream backgrounds (#F5F0EB) and deep red accents (#C41E3A) over pure white — warmer on the eyes, more welcoming, and intentionally embraces the femininity of the brand rather than neutralizing it.
+- **Navigation consolidation:** Reduced top-level nav to three items (Home, Communities, Resources) to eliminate the overwhelm of too many competing destinations.
 
-- **Warm neutral palette** (`#F5F0EB` background, `#FDFAF7` cards) instead of stark white — reduces visual harshness and feels more personal for a community product
-- **Libre Baskerville for headings** — brings editorial warmth that contrasts the utility of Inter for body copy, signaling this is a human community, not a SaaS tool
-- **Deep nav (`#2C1810`)** — grounds the top bar, makes the logo pop, and creates clear visual separation from content without competing with page actions
-- **Unified explore page** — merging Circles, Networks, and Groups into one filterable view reduces navigation decisions and surfaces community types users might not know exist
-
-## The Stack
-
-- HTML
-- CSS (custom properties, no framework)
-- Vanilla JavaScript (tab switching, category filtering, search)
+## Tech Stack
+HTML, CSS, vanilla JavaScript — no frameworks or build tools required.
 
 ## How to Run
-
-Open `index.html` in any browser. No build step required.
-
-## Live Link
-
-[https://lilykatdykstra.github.io/leanin-redesign](https://lilykatdykstra.github.io/leanin-redesign)
+Open `index.html` in any browser, or visit the live link above.
 
 ## What I'd Build Next
+- An onboarding flow for new members that walks through what Circles, Networks, and Groups are and helps them join their first one
+- Profile completion experience tied to community discovery
+- Mobile-optimized interactions and gesture support
 
-- **Real search** — connect the search bar to a backend or JSON data file so results are dynamic, not just text-match filtering of visible DOM elements
-- **Member profiles** — clicking a Circle member or Network leader should open a lightweight profile card showing their role, bio, and mutual connections
-- **Circle application flow** — the "Request to Join" button should trigger a short form (a few questions about goals and availability) so Circle leads can evaluate fit before accepting
+## AI Tools
+I used Claude to synthesize my audit notes and design thinking into structured decisions, and Claude Code / Cursor to build the prototype. AI tooling let me scope and execute a more complete prototype in 3 hours than would otherwise have been possible. All design decisions, prompts, and judgment calls were mine.

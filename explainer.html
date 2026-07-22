@@ -93,19 +93,21 @@
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.15s;
+      transition: background 0.15s, transform 0.2s ease;
       align-self: flex-start;
       color: #fff;
     }
     .exp-btn-circle  { background: #C41E3A; }
-    .exp-btn-circle:hover  { background: #A01830; }
+    .exp-btn-circle:hover  { background: #A01830; transform: scale(1.02); }
     .exp-btn-network { background: #5B3A9E; }
-    .exp-btn-network:hover { background: #452E7A; }
+    .exp-btn-network:hover { background: #452E7A; transform: scale(1.02); }
     .exp-btn-group   { background: #169C8A; }
-    .exp-btn-group:hover   { background: #0E7A6C; }
-    @media (max-width: 600px) {
+    .exp-btn-group:hover   { background: #0E7A6C; transform: scale(1.02); }
+    @media (max-width: 768px) {
       .exp-card { padding: 24px 20px; }
       .exp-card-title { font-size: 1.2rem; }
+      .explainer-main { padding: 32px 16px 40px; }
+      .explainer-hero { padding: 40px 16px 32px; }
     }
   </style>
 </head>

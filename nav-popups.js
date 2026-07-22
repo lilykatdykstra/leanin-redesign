@@ -238,6 +238,23 @@
   }
   function closeNotifs() { notifsDropdown.classList.remove('open'); }
 
+  /* ── Mobile Nav + Hamburger ─────────────────────────────── */
+  var mobileNav = document.createElement('div');
+  mobileNav.className = 'mobile-nav';
+  mobileNav.id = 'mobile-nav';
+  mobileNav.setAttribute('role', 'navigation');
+  mobileNav.setAttribute('aria-label', 'Mobile navigation');
+  document.body.appendChild(mobileNav);
+
+  var hamburger = document.createElement('button');
+  hamburger.className = 'nav-hamburger';
+  hamburger.setAttribute('aria-label', 'Open menu');
+  hamburger.setAttribute('aria-expanded', 'false');
+  hamburger.setAttribute('aria-controls', 'mobile-nav');
+  var hamburgerIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+  var closeMenuIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  hamburger.innerHTML = hamburgerIcon;
+
   /* ── Wire up buttons ────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var searchBtn = document.querySelector('.nav-icon-btn[aria-label="Search"]');
@@ -280,6 +297,57 @@
       if (notifsDropdown.classList.contains('open') && !notifsDropdown.contains(e.target)) {
         closeNotifs();
       }
+    });
+
+    // ── Hamburger setup ──
+    var navRight = document.querySelector('.nav-right');
+    if (navRight) {
+      navRight.insertBefore(hamburger, navRight.firstChild);
+    }
+
+    // Populate mobile nav from desktop links
+    document.querySelectorAll('.nav-links .nav-link').forEach(function (link) {
+      var a = document.createElement('a');
+      a.href = link.getAttribute('href');
+      a.className = 'mobile-nav-link' + (link.classList.contains('active') ? ' active' : '');
+      if (link.getAttribute('aria-current')) a.setAttribute('aria-current', link.getAttribute('aria-current'));
+      a.innerHTML = link.innerHTML;
+      mobileNav.appendChild(a);
+    });
+
+    var processLink = document.querySelector('.nav-process-link');
+    if (processLink) {
+      var pa = document.createElement('a');
+      pa.href = processLink.getAttribute('href');
+      pa.className = 'mobile-nav-link' + (processLink.classList.contains('active') ? ' active' : '');
+      pa.innerHTML = processLink.innerHTML;
+      mobileNav.appendChild(pa);
+    }
+
+    var mobileMenuOpen = false;
+    function closeMobileMenu() {
+      mobileMenuOpen = false;
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.innerHTML = hamburgerIcon;
+    }
+
+    hamburger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      mobileMenuOpen = !mobileMenuOpen;
+      mobileNav.classList.toggle('open', mobileMenuOpen);
+      hamburger.setAttribute('aria-expanded', String(mobileMenuOpen));
+      hamburger.innerHTML = mobileMenuOpen ? closeMenuIcon : hamburgerIcon;
+    });
+
+    document.addEventListener('click', function (e) {
+      if (mobileMenuOpen && !e.target.closest('.topnav') && !e.target.closest('.mobile-nav')) {
+        closeMobileMenu();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobileMenuOpen) closeMobileMenu();
     });
   });
 
