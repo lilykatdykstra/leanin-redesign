@@ -70,7 +70,7 @@ p { color: var(--gray); line-height: 1.7; }
 .topnav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 64px;
+  height: var(--nav-h);
   background: var(--color-nav);
   border-bottom: 1px solid #E8E4E0;
   display: flex;
@@ -1508,16 +1508,20 @@ a.rc-title:hover { color: var(--red); }
 /* ── Hamburger Button ── */
 .hamburger-menu {
   display: none;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px 8px;
-  font-size: 20px;
-  line-height: 1;
   color: rgba(26,26,26,0.6);
   transition: color 0.15s;
 }
 .hamburger-menu:hover { color: #1A1A1A; }
+.hamburger-menu svg { display: block; }
 
 /* ── Mobile Nav Drawer ── */
 .mobile-nav {
@@ -1595,12 +1599,14 @@ a.rc-title:hover { color: var(--red); }
   .sidebar-left { display: none; }
   .sidebar-right { display: flex; }
 
+  .topnav { height: var(--nav-h); }
   .nav-links { display: none; }
-  .hamburger-menu { display: block; }
+  .hamburger-menu { display: flex; align-items: center; }
   .nav-process-link { display: none; }
+  .nav-icon-btn[aria-label="Assistant"] { display: none; }
   .nav-logo img { height: 24px !important; max-height: 24px !important; }
   .nav-logo-text { display: none; }
-  .nav-right { gap: 4px; }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
 
   .composer-actions { display: none; }
   .composer { padding: 16px; }
